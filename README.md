@@ -1,6 +1,6 @@
-# ticketingSystem
+# 购买电影票网站
 
-This template should help get you started developing with Vue 3 in Vite.
+使用的是Vue 3 +pinia
 
 ## Recommended IDE Setup
 
@@ -10,19 +10,19 @@ This template should help get you started developing with Vue 3 in Vite.
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## 安装依赖包
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 启动项目
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### 打包项目
 
 ```sh
 npm run build
