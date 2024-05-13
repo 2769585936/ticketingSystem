@@ -10,14 +10,20 @@ const router = createRouter({
           path: '',
           redirect: 'index',
           component: () => import('@/views/layout/layout.vue'),
-          children: [{
-            path: 'index',
-            component: () => import('@/views/home/home.vue'),
-          }, {
-            path: "hotsell",
-            component: () => import('@/views/hotSell/hotSell.vue'),
-
-          }]
+          children: [
+            {
+              path: 'index',
+              component: () => import('@/views/home/home.vue')
+            },
+            {
+              path: 'hotsell',
+              component: () => import('@/views/hotSell/hotSell.vue')
+            },
+            {
+              path: 'cinema',
+              component: () => import('@/views/cinema/cinema.vue')
+            }
+          ]
         }
       ]
     }

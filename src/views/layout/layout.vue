@@ -38,7 +38,6 @@
         <p>版權所有©KERTESCINEMA</p>
       </div>
     </footer>
-
   </div>
 </template>
 
@@ -50,7 +49,7 @@ header {
   width: 100%;
   height: 80px;
   background: rgba(34, 28, 28, 1);
-  
+
   .container {
     height: 100%;
     @include flex-center;
@@ -106,8 +105,6 @@ header {
             box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);
           }
         }
-
-
       }
     }
 
@@ -135,19 +132,18 @@ footer {
     line-height: 20px;
     color: rgba(255, 255, 255, 1);
 
-    &>p {
-      &>span {
+    & > p {
+      & > span {
         margin-left: 28px;
       }
     }
 
-    &>p:first-of-type {
+    & > p:first-of-type {
       text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.09);
       /** 文本1 */
       font-size: 18px;
       line-height: 25px;
       color: rgba(255, 255, 255, 1);
-
     }
   }
 }
