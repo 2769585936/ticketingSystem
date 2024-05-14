@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior: () => {
+    return { top: 0 }
+  },
   routes: [
     {
       path: '',
@@ -34,8 +37,8 @@ const router = createRouter({
               ]
             },
             {
-              path: "ticketpurchasestage",
-              component: () => import("@/views/ticketPurchaseStage/index.vue")
+              path: 'ticketpurchasestage',
+              component: () => import('@/views/ticketPurchaseStage/index.vue')
             }
           ]
         }

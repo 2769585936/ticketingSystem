@@ -4,11 +4,13 @@
   box-sizing: border-box;
   color: #fff;
 }
-body {
-  margin: 0;
-  padding: 0;
+html {
+  height: 100%;
 }
-
+body {
+  min-height: 100vh;
+  background: rgb(34, 28, 28);
+}
 a {
   text-decoration: none;
   color: rgba(255, 255, 255, 1);
