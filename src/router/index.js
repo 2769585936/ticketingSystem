@@ -21,7 +21,21 @@ const router = createRouter({
             },
             {
               path: 'cinema',
-              component: () => import('@/views/cinema/cinema.vue')
+              component: () => import('@/views/cinema/cinema.vue'),
+              children: [
+                {
+                  path: '',
+                  component: () => import('@/views/cinema/components/chooseACinema.vue')
+                },
+                {
+                  path: 'choosedate',
+                  component: () => import('@/views/cinema/components/chooseDate.vue')
+                }
+              ]
+            },
+            {
+              path: "ticketpurchasestage",
+              component: () => import("@/views/ticketPurchaseStage/index.vue")
             }
           ]
         }
