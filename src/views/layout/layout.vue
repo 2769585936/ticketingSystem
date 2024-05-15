@@ -8,15 +8,15 @@
           <span class="text">KERTES CINEMA</span>
         </div>
         <div class="content">
-          <router-link to="index">
+          <router-link to="/index">
             <div class="text active">
               <div>首页</div>
             </div>
           </router-link>
-          <router-link to="index">
+          <router-link to="/index">
             <div class="text">选择剧院</div>
           </router-link>
-          <router-link to="hotsell">
+          <router-link to="/hotsell">
             <div class="text">熱售中</div>
           </router-link>
           <div class="text">即將上映</div>

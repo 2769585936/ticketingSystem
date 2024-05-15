@@ -38,7 +38,17 @@ const router = createRouter({
             },
             {
               path: 'ticketpurchasestage',
-              component: () => import('@/views/ticketPurchaseStage/index.vue')
+              component: () => import('@/views/ticketPurchaseStage/index.vue'),
+              children: [
+                {
+                  path: '',
+                  component: () => import('@/views/ticketPurchaseStage/components/ChooseSeat.vue')
+                },
+                {
+                  path: 'confirmorder',
+                  component: () => import('@/views/ticketPurchaseStage/components/ConfirmOrder.vue')
+                }
+              ]
             }
           ]
         }

@@ -5,7 +5,9 @@
       <h3>推荐电影</h3>
       <div class="content">
         <div>
-          <div class="poster"><img src="https://img.js.design/assets/img/643d164b0e1ca65705773e0f.png" alt="" /></div>
+          <div class="poster">
+            <img src="https://api.kertescinema.com.tw/storage/a1b2b4dcbc6edff21c4a0684a0ac7c1c.jpg" alt="" />
+          </div>
           <div class="score-content">
             <div>复仇者联盟</div>
             <div class="score">
@@ -18,21 +20,35 @@
           </div>
         </div>
         <div>
-          <div>
-            <div class="poster"><img src="https://img.js.design/assets/img/643d164b0e1ca65705773e0f.png" alt="" /></div>
-            <div class="score-content">
-              <div>复仇者联盟</div>
-              <div class="score">
-                <img src="@/assets/images/score-r.png" alt="" />
-                <img src="@/assets/images/score-r.png" alt="" />
-                <img src="@/assets/images/score-r.png" alt="" />
-                <img src="@/assets/images/score-r.png" alt="" />
-                <img src="@/assets/images/score-r.png" alt="" />
-              </div>
+          <div class="poster">
+            <img src="https://api.kertescinema.com.tw/storage/a1b2b4dcbc6edff21c4a0684a0ac7c1c.jpg" alt="" />
+          </div>
+          <div class="score-content">
+            <div>复仇者联盟</div>
+            <div class="score">
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
             </div>
           </div>
         </div>
-        <div></div>
+        <div>
+          <div class="poster">
+            <img src="https://api.kertescinema.com.tw/storage/a1b2b4dcbc6edff21c4a0684a0ac7c1c.jpg" alt="" />
+          </div>
+          <div class="score-content">
+            <div>复仇者联盟</div>
+            <div class="score">
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+              <img src="@/assets/images/score-r.png" alt="" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +103,7 @@
 
       & > div {
         position: relative;
-        height: 250px;
+        // height: 250px;
         background-color: red;
 
         & > div {
@@ -100,7 +116,7 @@
           img {
             width: 100%;
             height: 100%;
-            object-fit: none;
+            object-fit: cover;
           }
         }
 
@@ -141,7 +157,6 @@
       & > div:first-of-type {
         grid-row: 1 / 3;
         height: 100%;
-        background-color: green;
       }
     }
   }
@@ -190,7 +205,6 @@
 
     .box {
       .img {
-        height: 240px;
         position: relative;
 
         img {
