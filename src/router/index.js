@@ -47,6 +47,10 @@ const router = createRouter({
                 {
                   path: 'confirmorder',
                   component: () => import('@/views/ticketPurchaseStage/components/ConfirmOrder.vue')
+                },
+                {
+                  path: 'orderpass',
+                  component: () => import('@/views/ticketPurchaseStage/components/OrderPass.vue')
                 }
               ]
             }

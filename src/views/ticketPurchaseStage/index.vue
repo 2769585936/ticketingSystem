@@ -4,7 +4,7 @@
       <ul class="nav-nar">
         <li class="active"><span class="text">選擇場次</span></li>
         <li class="active">選擇座位</li>
-        <li>確認</li>
+        <li @click="$router.back()">確認</li>
         <li>成功</li>
       </ul>
 

@@ -1,6 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+const btnSubmit = () => {
+  router.push('/ticketpurchasestage/orderpass')
+}
 const zuoList = ref([
   {
     id: 1,
@@ -66,6 +71,32 @@ const zuoList = ref([
             </tbody>
           </table>
         </div>
+      </div>
+      <div class="phone-verification-content">
+        <div class="phone-content">
+          <label for="phone" class="phone-label">
+            <span>手机号码</span>
+            <div class="phone-div">
+              <input type="text" id="phone" placeholder="请输入手机号码" />
+            </div>
+          </label>
+          <label for="verification" class="phone-label">
+            <span>验证码</span>
+            <div class="phone-div">
+              <input type="text" id="verification" placeholder="请输入验证码" />
+              <button class="btn-yzm">获取验证码</button>
+            </div>
+          </label>
+        </div>
+
+        <p class="jine-content">
+          <span class="jine-text">金额:</span>
+          <span class="duona">$</span>
+          <span class="total-prices">490.88</span>
+        </p>
+        <p class="queding-order">
+          <button @click="btnSubmit">确认</button>
+        </p>
       </div>
     </div>
   </div>
@@ -159,6 +190,85 @@ const zuoList = ref([
       th {
         padding: 15px;
       }
+    }
+  }
+}
+
+.phone-verification-content {
+  margin-top: 50px;
+  border-top: 1px solid rgba(211, 211, 211, 0.2);
+  padding: 30px 0;
+
+  .phone-content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    .phone-label {
+      flex: 1;
+      display: flex;
+      align-content: center;
+      line-height: 50px;
+      .phone-div {
+        margin-left: 30px;
+        height: 50px;
+        flex: 1;
+        border-top: 1px solid rgba(211, 211, 211, 0.2);
+        border-bottom: 1px solid rgba(211, 211, 211, 0.2);
+        input {
+          padding-left: 10px;
+          width: calc(100% - 100px);
+          font-size: 16px;
+          height: 24px;
+          line-height: 24px;
+          background: none !important;
+          border: none;
+        }
+
+        .btn-yzm {
+          background: none;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 22px;
+          color: rgba(255, 109, 83, 1);
+
+          &:focus-visible {
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  .jine-content {
+    text-align: right;
+    padding: 30px 0 15px 0;
+    line-height: 22px;
+    .jine-text {
+      /** 文本1 */
+      font-size: 16px;
+      font-weight: 400;
+    }
+    .duona {
+      margin-left: 10px;
+      font-size: 22px;
+      color: rgba(255, 88, 83, 1);
+    }
+    .total-prices {
+      font-size: 26px;
+      font-weight: 500;
+      color: rgba(255, 88, 83, 1);
+    }
+  }
+  .queding-order {
+    text-align: right;
+    button {
+      border-radius: 10px;
+      font-size: 16px;
+      width: 195px;
+      height: 47px;
+      background: rgba(255, 109, 83, 1);
     }
   }
 }
