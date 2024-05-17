@@ -24,7 +24,7 @@
           <div class="text">我的資料</div>
         </div>
         <div class="right">
-          <span>登录</span>
+          <span @click="$router.push('/login')">登录</span>
           <span>注销</span>
         </div>
       </div>
