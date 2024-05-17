@@ -53,6 +53,11 @@ const router = createRouter({
                   component: () => import('@/views/ticketPurchaseStage/components/OrderPass.vue')
                 }
               ]
+            },
+            // 我的资料
+            {
+              path: 'myprofile',
+              component: () => import('@/views/myprofile/index.vue')
             }
           ]
         },

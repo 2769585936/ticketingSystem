@@ -1,47 +1,20 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, markRaw } from 'vue'
+import EnterLogin from './components/EnterLogin.vue' //登录组件
+import SignIn from './components/SignIn.vue' //注册组件
+import ForgetPassword from './components/ForgetPassword.vue' //忘记密码组件
+
+const componentIs = ref(0)
+const componentList = markRaw([EnterLogin, SignIn, ForgetPassword])
 
 const canvas = ref(null)
-// onMounted(() => {
-//   // const cas = canvas.value
-//   const cas = document.querySelector('canvas')
-
-//   const width = cas.offsetWidth
-//   const height = cas.offsetHeight
-//   cas.width = width
-//   cas.height = height
-//   const ctx = cas.getContext('2d')
-//   ctx.width = width
-//   ctx.height = height
-
-//   const xingxing = []
-//   let s = 1
-//   function draw() {
-//     setInterval(() => {
-//       ctx.clearRect(0, 0, width, height)
-//       xingxing[0] = new Path2D()
-//       s -= 0.1
-      
-//       ctx.fillStyle = `rgba(255,255,255,${s})`
-//       ctx.arc(350, 350, 2, 0, 2 * Math.PI, true)
-//       ctx.fill()
-//     }, 200)
-//   }
-//   draw()
-
-//   ctx.arc(50, 50, 2, 0, 2 * Math.PI, true)
-//   ctx.fill()
-//   ctx.arc(150, 150, 2, 0, 2 * Math.PI, true)
-//   ctx.fill()
-//   ctx.arc(250, 250, 2, 0, 2 * Math.PI, true)
-//   ctx.fill()
-// })
-
-
 </script>
 <template>
   <div class="layout">
-    <canvas ref="canvas" class="cas"></canvas>
+    <!-- <canvas ref="canvas" class="cas"></canvas> -->
+    <div class="login">
+      <component v-model:componentIs="componentIs" :is="componentList[componentIs]"></component>
+    </div>
   </div>
 </template>
 
@@ -63,6 +36,11 @@ const canvas = ref(null)
     width: 100%;
     height: 100%;
     // background: red;
+  }
+  .login {
+    margin: 150px auto;
+    width: 375px;
+    min-width: 375px;
   }
 }
 </style>

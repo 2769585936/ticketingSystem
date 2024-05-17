@@ -48,3 +48,10 @@ npm run build
   移动端在写一套样式  并不是用pc去兼容移动 
   除非很有精力去做全部的兼容
   就是写了很多媒体查询去做的
+
+### 第四天
+  一晃就写了四天了 前台大部分布局都完成了 还有一些样式没改等连通数据库了在改
+  自定义主题导入 需要把  [ElementPlusResolver({ importStyle: 'sass' })] 要加入 { importStyle: 'sass' } 才行
+  原生input框 本身的阴影盒子跟 input 高度不相等 可以加入 height:fit-content  font: inherit;  都加上试试
+  最开始写样式的时候 还是得要把样式全部重置会好一点 
+  加油!!!!

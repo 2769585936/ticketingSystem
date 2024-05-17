@@ -1,0 +1,78 @@
+.login-content-form {
+  h4 {
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 39px;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .colum {
+      height: 42px;
+      line-height: 42px;
+      display: flex;
+      align-content: center;
+      gap: 10px;
+      label {
+        min-width: 70px;
+      }
+
+      .input-content {
+        flex: 1;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-content: center;
+        gap: 10px;
+        input {
+          font: inherit;
+          height: fit-content;
+          width: fit-content;
+          flex: 1;
+          font-size: 16px;
+          padding-left: 15px;
+        }
+      }
+      &.yanzhengma {
+        position: relative;
+        .input-content {
+          .get-yzm {
+            height: 100%;
+            margin-right: 10px;
+            width: 80px;
+            font-size: 16px;
+            color: rgba(255, 109, 83, 1);
+          }
+          input {
+            width: 0;
+            flex: 1;
+            font-size: 16px;
+            padding-left: 15px;
+          }
+        }
+      }
+    }
+
+    .qita-anniu {
+      width: 100%;
+      height: 42px;
+      display: flex;
+      justify-content: space-evenly;
+      & > div {
+        padding: 10px 20px;
+        &:hover {
+          background: rgba(22, 22, 22, 0.4);
+        }
+      }
+    }
+
+    .btn {
+      margin: 0 80px;
+      height: 42px;
+      background: rgba(22, 22, 22, 0.4);
+      // background: red;
+    }
+  }
+}

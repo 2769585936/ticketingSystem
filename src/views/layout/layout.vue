@@ -21,7 +21,9 @@
           </router-link>
           <div class="text">即將上映</div>
           <div class="text">訂單隱私條款與服協議</div>
-          <div class="text">我的資料</div>
+          <router-link to="/myprofile">
+            <div class="text">我的資料</div>
+          </router-link>
         </div>
         <div class="right">
           <span @click="$router.push('/login')">登录</span>

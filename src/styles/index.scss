@@ -2,7 +2,6 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
-  color: #fff;
 }
 html {
   height: 100%;
@@ -11,6 +10,7 @@ body {
   min-height: 100vh;
   background: rgb(34, 28, 28);
 }
+
 a {
   text-decoration: none;
   color: rgba(255, 255, 255, 1);
@@ -23,6 +23,8 @@ button {
   }
 }
 input {
+  background-color: transparent;
+  border: none;
   &:focus {
     outline: none;
   }
