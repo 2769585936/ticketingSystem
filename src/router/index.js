@@ -57,7 +57,17 @@ const router = createRouter({
             // 我的资料
             {
               path: 'myprofile',
-              component: () => import('@/views/myprofile/index.vue')
+              component: () => import('@/views/myprofile/index.vue'),
+              children: [
+                {
+                  path: '',
+                  component: () => import('@/views/myprofile/components/AllOrder.vue')
+                },
+                {
+                  path: 'orderdetails/:id',
+                  component: () => import('@/views/myprofile/components/OrderDetails.vue')
+                }
+              ]
             }
           ]
         },
