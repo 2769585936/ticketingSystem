@@ -1,4 +1,8 @@
 .login-content-form {
+  color: white;
+  & *{
+    color: white;
+  }
   h4 {
     margin-bottom: 15px;
     text-align: center;
@@ -46,6 +50,7 @@
             color: rgba(255, 109, 83, 1);
           }
           input {
+          
             width: 0;
             flex: 1;
             font-size: 16px;

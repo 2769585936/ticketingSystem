@@ -1,9 +1,36 @@
 <script setup>
+import md5 from 'md5'
+import { ref } from 'vue'
+import { logonApi } from '@/api/login'
+import { useRouter } from 'vue-router'
 // vue 3.4 最新写法 子向父修改值
 const componentIs = defineModel('componentIs')
 
+const router = useRouter()
+
+const formLogin = ref({
+  phone: '',
+  password: ''
+})
 const componentIsChange = index => {
   componentIs.value = index
+}
+
+// 登录
+const btnLogin = async () => {
+  if (formLogin.value.phone && formLogin.value.password) {
+    const data = await logonApi({
+      phone: formLogin.value.phone,
+      password: md5(formLogin.value.password)
+    })
+    if (data) {
+      const { data: res, token } = data
+      localStorage.token = token
+      router.replace('/')
+    }
+  } else {
+    console.log('用户名或密码不能为空')
+  }
 }
 </script>
 <template>
@@ -14,14 +41,14 @@ const componentIsChange = index => {
         <div class="colum">
           <label for="phone">手机号码</label>
           <div class="input-content">
-            <input id="phone" type="text" placeholder="请输入手机号码" />
+            <input id="phone" v-model="formLogin.phone" type="text" placeholder="请输入手机号码" />
             <div class="get-yzm"></div>
           </div>
         </div>
         <div class="colum">
           <label for="phonemima">手机密码</label>
           <div class="input-content">
-            <input id="phonemima" type="text" placeholder="请输入密码" />
+            <input id="phonemima" v-model="formLogin.password" type="password" placeholder="请输入密码" />
             <div class="get-yzm"></div>
           </div>
         </div>
@@ -29,7 +56,7 @@ const componentIsChange = index => {
           <div @click="componentIsChange(1)">註冊</div>
           <div @click="componentIsChange(2)">忘記密碼？</div>
         </div>
-        <button class="btn">登入</button>
+        <button class="btn" @click="btnLogin">登入</button>
       </form>
     </div>
   </div>

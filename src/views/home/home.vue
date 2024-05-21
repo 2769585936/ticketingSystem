@@ -1,51 +1,28 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue'
+import { recommendFilmApi } from '@/api/filmInfo/index'
+
+const recommendFilmList = ref([])
+
+onMounted(async () => {
+  const { data: res } = await recommendFilmApi()
+  recommendFilmList.value = res
+})
+</script>
 <template>
   <div class="banner">
     <div class="container">
       <h3>推荐电影</h3>
       <div class="content">
-        <div>
+        <div v-for="item in recommendFilmList" :key="item._id">
           <div class="poster">
-            <img src="https://api.kertescinema.com.tw/storage/a1b2b4dcbc6edff21c4a0684a0ac7c1c.jpg" alt="" />
+            <img :src="item.pictureUrl" alt="" />
           </div>
           <div class="score-content">
-            <div>复仇者联盟</div>
+            <div>{{ item.filmTitle }}</div>
             <div class="score">
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="poster">
-            <img src="https://api.kertescinema.com.tw/storage/a1b2b4dcbc6edff21c4a0684a0ac7c1c.jpg" alt="" />
-          </div>
-          <div class="score-content">
-            <div>复仇者联盟</div>
-            <div class="score">
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="poster">
-            <img src="https://api.kertescinema.com.tw/storage/a1b2b4dcbc6edff21c4a0684a0ac7c1c.jpg" alt="" />
-          </div>
-          <div class="score-content">
-            <div>复仇者联盟</div>
-            <div class="score">
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
-              <img src="@/assets/images/score-r.png" alt="" />
+              <img v-for="(xing, index) of item.score" :key="index" src="@/assets/images/score-r.png" alt="" />
+              <img v-for="(xing, index) of 5 - item.score" :key="index" src="@/assets/images/score-v.png" alt="" />
             </div>
           </div>
         </div>
@@ -71,7 +48,6 @@
                 <span class="text">这个杀手不太冷</span>
               </div>
             </div>
-
             <div class="booking"><span>訂票</span></div>
           </router-link>
         </div>

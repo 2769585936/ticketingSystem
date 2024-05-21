@@ -6,7 +6,6 @@ import ForgetPassword from './components/ForgetPassword.vue' //忘记密码组�
 
 const componentIs = ref(0)
 const componentList = markRaw([EnterLogin, SignIn, ForgetPassword])
-
 const canvas = ref(null)
 </script>
 <template>
