@@ -3,26 +3,27 @@
     <div class="container">
       <div class="choose-day">
         <el-tabs class="demo-tabs" v-model="dateIndex">
-          <el-tab-pane
-            v-for="(item, index) in 7"
-            :key="item"
-            :label="getdateFormat(index)"
-            :name="item"
-          ></el-tab-pane>
+          <el-tab-pane v-for="(item, index) in 7" :key="item" :label="getdateFormat(index)" :name="item"></el-tab-pane>
         </el-tabs>
 
         <div class="piao">
-          <div class="box" v-for="item in 10" :key="item">
+          <div class="box" v-for="item in CinemasTimeList" :key="item">
             <div class="left">
               <p class="title-box">
-                11:00<span class="banquan">（數位版）</span><br />
-                <span class="text">A廳 90分钟</span>
+                {{ item.startTime }}<span class="banquan">（數位版）</span><br />
+                <span class="text">{{ item._cid[0].hall[item.hall] }} {{ item._fid[0].duration }}分钟</span>
               </p>
             </div>
             <div class="right">
-              <button @click="$router.push({
-                path: '/ticketpurchasestage'
-              })">订票</button>
+              <button
+                @click="
+                  $router.push({
+                    path: '/ticketpurchasestage'
+                  })
+                "
+              >
+                订票
+              </button>
             </div>
           </div>
         </div>
@@ -32,23 +33,36 @@
 </template>
 
 <script setup>
-import dayjs from "dayjs";
-import { ref } from "vue";
-const dateIndex = ref(1);
-const getDateTime = (date) => {
-  return dayjs(date).format("MM月DD日");
-};
+import { getCinemasTimeApi } from '@/api/cinemas'
+import dayjs from 'dayjs'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+const dateIndex = ref(1)
+const getDateTime = date => {
+  return dayjs(date).format('MM月DD日')
+}
 
-const getdateFormat = (index) => {
-  let str = getDateTime(Date.now() + 1000 * 60 * 60 * 24 * index);
+const route = useRoute()
+const CinemasTimeList = ref([])
+const getCinemasTime = async () => {
+  const { _cid, _fid } = route.query
+  const { data: res } = await getCinemasTimeApi({ _cid, _fid })
+  CinemasTimeList.value = res
+  console.log(res)
+}
+
+onMounted(() => getCinemasTime())
+
+const getdateFormat = index => {
+  let str = getDateTime(Date.now() + 1000 * 60 * 60 * 24 * index)
   if (index == 0) {
-    str = "今天" + str;
+    str = '今天' + str
   }
   if (index == 1) {
-    str = "明天" + str;
+    str = '明天' + str
   }
-  return str;
-};
+  return str
+}
 </script>
 
 <style lang="scss" scoped>
@@ -111,11 +125,8 @@ const getdateFormat = (index) => {
             button {
               width: 76px;
               height: 80px;
-              background: linear-gradient(
-                142.64deg,
-                rgba(255, 109, 83, 1) 0%,
-                rgba(255, 83, 83, 1) 100%
-              );
+              color: white;
+              background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
             }
           }
         }

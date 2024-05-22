@@ -89,6 +89,7 @@ const orderSubmit = () => {
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
+  color: white;
   .left {
     flex: 1;
     // 座位样式

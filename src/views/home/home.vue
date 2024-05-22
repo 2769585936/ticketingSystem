@@ -86,7 +86,7 @@ const currentList = computed(() => {
       <div class="content-neirong">
         <!-- 热售 -->
         <div class="box" v-for="item in currentList" :key="item._id">
-          <router-link :to="'/cinema/' + item._id">
+          <router-link :to="{ path: '/cinema', query: { _fid: item._id } }">
             <div class="img">
               <img :src="item.pictureUrl" alt="" />
               <div class="mask">

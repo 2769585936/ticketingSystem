@@ -27,7 +27,7 @@ const router = createRouter({
               component: () => import('@/views/preSell/preSell.vue')
             },
             {
-              path: 'cinema/:id',
+              path: 'cinema',
               component: () => import('@/views/cinema/cinema.vue'),
               children: [
                 {

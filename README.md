@@ -55,3 +55,19 @@ npm run build
   原生input框 本身的阴影盒子跟 input 高度不相等 可以加入 height:fit-content  font: inherit;  都加上试试
   最开始写样式的时候 还是得要把样式全部重置会好一点 
   加油!!!!
+
+  ### 第10天
+  登录页弄完了 服务器也在逐渐走上正规 尽管服务器和数据库写的不是很好 好歹也能把我想要的数据发回来 凑合用
+  缓存路由 使用的用法 
+  ```
+  <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+  </router-view>
+  ```
+  <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+  </router-view>

@@ -1,19 +1,30 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getCinemasApi } from '@/api/cinemas'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const cinemaList = ref([])
 const getCineme = async () => {
   const { data: res } = await getCinemasApi({
-    id: route.params.id
+    id: route.query._fid
   })
   cinemaList.value = res
-  console.log(res)
 }
 
 onMounted(() => getCineme())
+
+const xuanpiao = info => {
+  console.log(info)
+  router.push({
+    path: '/cinema/choosedate',
+    query: {
+      _fid: route.query._fid,
+      _cid: info._cid._id
+    }
+  })
+}
 </script>
 
 <template>
@@ -22,7 +33,7 @@ onMounted(() => getCineme())
       <div class="choose-title">
         <h3>選擇影院</h3>
       </div>
-      <dir class="cineplexs">
+      <div class="cineplexs">
         <div class="box" v-for="item in cinemaList" :key="item._id">
           <div class="cinema-logo">
             <div class="img"></div>
@@ -31,13 +42,11 @@ onMounted(() => getCineme())
             <p class="title-nickname">{{ item._cid.cinemaName }}</p>
             <p class="title-address">{{ item._cid.address }}</p>
           </div>
-          <router-link to="/cinema/choosedate">
-            <div class="right-btn">
-              <button>选座购票</button>
-            </div>
-          </router-link>
+          <div class="right-btn">
+            <button @click="xuanpiao(item)">选座购票</button>
+          </div>
         </div>
-      </dir>
+      </div>
     </div>
   </div>
 </template>

@@ -1,11 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { onActivated, onDeactivated, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const btnSubmit = () => {
   router.push('/ticketpurchasestage/orderpass')
 }
+
+onMounted(() => {
+  console.log(989898)
+})
+onActivated(() => {
+  console.log('被激活了')
+})
+
+onDeactivated(() => {
+  console.log('被销毁了')
+})
+const pheo = ref({
+  phone: '',
+  yzx: ''
+})
 const zuoList = ref([
   {
     id: 1,
@@ -77,13 +92,13 @@ const zuoList = ref([
           <label for="phone" class="phone-label">
             <span>手机号码</span>
             <div class="phone-div">
-              <input type="text" id="phone" placeholder="请输入手机号码" />
+              <input type="text" v-model="pheo.phone" id="phone" placeholder="请输入手机号码" />
             </div>
           </label>
           <label for="verification" class="phone-label">
             <span>验证码</span>
             <div class="phone-div">
-              <input type="text" id="verification" placeholder="请输入验证码" />
+              <input type="text" v-model="pheo.yzm" id="verification" placeholder="请输入验证码" />
               <button class="btn-yzm">获取验证码</button>
             </div>
           </label>
@@ -104,6 +119,7 @@ const zuoList = ref([
 
 <style scoped lang="scss">
 .order-time {
+  color: white;
   width: 100%;
   padding: 20px 30px;
   display: flex;
@@ -137,6 +153,7 @@ const zuoList = ref([
 }
 
 .table-content {
+  color: white;
   .jiage {
     margin-top: 30px;
     font-size: 20px;
@@ -195,6 +212,7 @@ const zuoList = ref([
 }
 
 .phone-verification-content {
+  color: white;
   margin-top: 50px;
   border-top: 1px solid rgba(211, 211, 211, 0.2);
   padding: 30px 0;
@@ -222,6 +240,7 @@ const zuoList = ref([
           font-size: 16px;
           height: 24px;
           line-height: 24px;
+          color: white;
           background: none !important;
           border: none;
         }
@@ -264,6 +283,7 @@ const zuoList = ref([
   .queding-order {
     text-align: right;
     button {
+      color: white;
       border-radius: 10px;
       font-size: 16px;
       width: 195px;

@@ -7,20 +7,11 @@
       <div class="top-title">
         <div class="content container">
           <div class="left">
-            <img
-              src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png"
-              alt=""
-            />
+            <img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" />
           </div>
           <div class="right">
             <div class="title">
-              <span>湄公河行動</span
-              ><span class="star"
-                ><img src="@/assets/images/score-r.png" /><img
-                  src="@/assets/images/score-r.png" /><img
-                  src="@/assets/images/score-r.png" /><img
-                  src="@/assets/images/score-r.png" /><img
-                  src="@/assets/images/score-r.png" /></span
+              <span>湄公河行動</span><span class="star"><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /></span
               ><span class="score-count">6.6分</span>
             </div>
             <div class="description">壹戰成神、壹觸即發</div>
@@ -39,7 +30,6 @@
       </div>
     </div>
     <router-view></router-view>
-   
   </div>
 </template>
 
@@ -114,11 +104,7 @@
             padding: 4px 5px;
             font-size: 12px;
             margin-right: 8px;
-            background: linear-gradient(
-              142.64deg,
-              rgba(255, 109, 83, 1) 0%,
-              rgba(255, 83, 83, 1) 100%
-            );
+            background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.09);
           }
         }
@@ -136,7 +122,5 @@
       }
     }
   }
-
- 
 }
 </style>

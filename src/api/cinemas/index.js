@@ -6,3 +6,8 @@ export const getCinemasApi = params => {
     params
   })
 }
+export const getCinemasTimeApi = params => {
+  return request.get('cinemasTime', {
+    params
+  })
+}

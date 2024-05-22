@@ -2,15 +2,18 @@
   <div class="main">
     <div class="container">
       <ul class="nav-nar">
-        <li class="active"><span class="text">選擇場次</span></li>
-        <li class="active">選擇座位</li>
-        <li @click="$router.back()">確認</li>
+        <li class="active">
+          <router-link to="/index"> 選擇場次 </router-link>
+        </li>
+        <li class="active" @click="$router.push('/ticketpurchasestage')">選擇座位</li>
+        <li aria-disabled="" @click="$router.push('/ticketpurchasestage/confirmorder')">確認</li>
         <li>成功</li>
       </ul>
-
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </div>
   </div>
 </template>
@@ -23,6 +26,7 @@
   background: #25262c;
   .container {
     .nav-nar {
+      color: white;
       width: 820px;
       margin: auto;
       display: flex;
