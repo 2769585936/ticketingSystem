@@ -36,3 +36,11 @@ input {
     -webkit-text-fill-color: #fff;
   }
 }
+
+.ellipsis-multiline {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* 定义文本的行数 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

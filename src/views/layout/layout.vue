@@ -8,22 +8,24 @@
           <span class="text">KERTES CINEMA</span>
         </div>
         <div class="content">
-          <router-link to="/index">
-            <div class="text active">
+          <router-link :class="{ active: $route.href == '/index' }" to="/index">
+            <div class="text">
               <div>首页</div>
             </div>
           </router-link>
-          <router-link to="/index">
+          <router-link :class="{ active: $route.href == '/sss' }" to="/index">
             <div class="text">选择剧院</div>
           </router-link>
-          <router-link to="/hotsell">
+          <router-link :class="{ active: $route.href == '/hotsell' }" to="/hotsell">
             <div class="text">熱售中</div>
           </router-link>
-          <div class="text">即將上映</div>
-          <div class="text">訂單隱私條款與服協議</div>
-          <router-link to="/myprofile">
+          <router-link :class="{ active: $route.href == '/presell' }" to="/presell">
+            <div class="text">即將上映</div>
+          </router-link>
+          <router-link :class="{ active: $route.href == '/myprofile' }" to="/myprofile">
             <div class="text">我的資料</div>
           </router-link>
+          <div class="header-bar"></div>
         </div>
         <div class="right">
           <span @click="$router.push('/login')">登录</span>
@@ -79,34 +81,55 @@ header {
     }
 
     .content {
+      position: relative;
       height: 100%;
-      margin-left: 20px;
       flex: 1;
+      gap: 10px;
       display: flex;
-
+      color: rgba(255, 255, 255, 1);
+      & .active {
+        color: rgba(255, 109, 83, 1);
+      }
       & .text {
-        color: rgba(255, 255, 255, 1);
-        margin-right: 43px;
+        padding: 0 15px;
         height: 100%;
         @include flex-center;
-
-        &.active {
-          color: rgba(255, 109, 83, 1);
-          position: relative;
-
-          &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            border-radius: 3px;
-            background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
-            box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);
-          }
+        &:hover {
+          background: rgba(122, 122, 122, 0.2);
         }
+      }
+      .header-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 36px;
+        margin: 0 15px;
+        height: 4px;
+        border-radius: 3px;
+        background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
+        box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);
+        transition: all 0.3s;
+      }
+
+      & .active:nth-child(1) ~ .header-bar {
+        left: 0;
+        width: 36px;
+      }
+      & .active:nth-child(2) ~ .header-bar {
+        left: 90px;
+        width: 72px;
+      }
+      & .active:nth-child(3) ~ .header-bar {
+        left: 188px;
+        width: 54px;
+      }
+      & .active:nth-child(4) ~ .header-bar {
+        left: 282px;
+        width: 72px;
+      }
+      & .active:nth-child(5) ~ .header-bar {
+        left: 394px;
+        width: 72px;
       }
     }
 

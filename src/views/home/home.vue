@@ -1,12 +1,55 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { recommendFilmApi } from '@/api/filmInfo/index'
+import { computed, onMounted, ref } from 'vue'
+import { hotSaleApi, preSaleApi, recommendFilmApi } from '@/api/filmInfo/index'
 
 const recommendFilmList = ref([])
 
 onMounted(async () => {
   const { data: res } = await recommendFilmApi()
   recommendFilmList.value = res
+})
+
+// 获取热售数据
+const hotSaleList = ref([])
+
+const getHotSale = async () => {
+  const obj = {
+    limit: 10
+  }
+  const { data: res } = await hotSaleApi(obj)
+  console.log(res)
+  hotSaleList.value = res
+}
+
+onMounted(() => {
+  getHotSale()
+})
+
+// 切换热售和即将上映
+const showMovieInfo = ref('hot')
+const preSaleList = ref([])
+
+let preSaleListbool = false
+
+const getPreSale = async () => {
+  const obj = {
+    limit: 10
+  }
+  const { data: res } = await preSaleApi(obj)
+  preSaleList.value = res
+}
+
+const clickGetPreList = () => {
+  showMovieInfo.value = 'pre'
+  if (preSaleListbool) return
+
+  preSaleListbool = true
+  getPreSale()
+}
+
+const currentList = computed(() => {
+  if (showMovieInfo.value == 'hot') return hotSaleList.value
+  return preSaleList.value
 })
 </script>
 <template>
@@ -33,24 +76,30 @@ onMounted(async () => {
     <div class="container">
       <div class="hot-selling">
         <div class="hot-tabs">
-          <div class="text active">熱售中</div>
-          <div class="text">即將上映</div>
+          <div class="text" :class="{ active: showMovieInfo == 'hot' }" @click="showMovieInfo = 'hot'">正在热映</div>
+          <div class="text" :class="{ active: showMovieInfo == 'pre' }" @click="clickGetPreList">即將上映</div>
+          <div class="current-bar"></div>
         </div>
-        <div class="all-hot">全部 ></div>
+        <div class="all-hot" @click="$router.push('/hotsell')">全部 ></div>
       </div>
 
       <div class="content-neirong">
-        <div class="box" v-for="item in 10" :key="item">
-          <router-link to="cinema">
+        <!-- 热售 -->
+        <div class="box" v-for="item in currentList" :key="item._id">
+          <router-link :to="'/cinema/' + item._id">
             <div class="img">
-              <img src="https://img.js.design/assets/img/643d16474274fef453c2cf41.png" alt="" />
+              <img :src="item.pictureUrl" alt="" />
               <div class="mask">
-                <span class="text">这个杀手不太冷</span>
+                <span class="text">{{ item.filmTitle }}</span>
               </div>
             </div>
-            <div class="booking"><span>訂票</span></div>
+            <div class="booking">
+              <span>{{ showMovieInfo === 'hot' ? '訂票' : '预售' }}</span>
+            </div>
           </router-link>
         </div>
+
+        <!-- 即将上映 -->
       </div>
     </div>
   </div>
@@ -151,17 +200,45 @@ onMounted(async () => {
     letter-spacing: 0px;
 
     .hot-tabs {
+      position: relative;
       display: flex;
       color: rgba(139, 139, 152, 1);
 
       .text {
-        height: 30px;
-        margin-right: 30px;
+        padding: 15px 15px;
+        text-align: center;
         line-height: 22px;
+
+        &:hover {
+          background: rgba(139, 139, 152, 0.2);
+        }
       }
 
       & .active {
         color: rgba(255, 255, 255, 1);
+      }
+
+      .current-bar {
+        position: absolute;
+        left: 0;
+        bottom: 0px;
+        width: 52px;
+        margin: 0 25px;
+        height: 4px;
+        border-radius: 3px;
+        background: linear-gradient(142.64deg, rgb(255, 109, 83) 0%, rgb(255, 83, 83) 100%);
+        box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);
+        transition: all 0.3s;
+      }
+      & > div:nth-child(1) {
+        &.active ~ .current-bar {
+          left: 0px;
+        }
+      }
+      & > div:nth-child(2) {
+        &.active ~ .current-bar {
+          left: 102px;
+        }
       }
     }
 
@@ -176,6 +253,7 @@ onMounted(async () => {
   .content-neirong {
     padding-top: 30px;
     display: grid;
+    min-height: 270px;
     gap: 30px;
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
 

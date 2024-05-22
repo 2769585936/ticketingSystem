@@ -1,15 +1,16 @@
 <script setup>
-import { hotSaleApi } from '@/api/filmInfo'
+import { preSaleApi } from '@/api/filmInfo'
 import { getTagsApi } from '@/api/other'
 import { onMounted, ref } from 'vue'
 
-const hotSaleList = ref([])
-const getHotSale = async () => {
-  const { data: res } = await hotSaleApi()
-  hotSaleList.value = res
-  console.log(res)
+const preSaleList = ref([])
+const getPreSale = async () => {
+  const { data: res } = await preSaleApi({
+    limit: 10
+  })
+  preSaleList.value = res
 }
-onMounted(() => getHotSale())
+onMounted(() => getPreSale())
 
 // 获取标签列表
 const tagsList = ref([])
@@ -25,7 +26,7 @@ onMounted(() => getTags())
   <div class="main">
     <div class="container">
       <div class="content">
-        <DetailItem v-for="item in hotSaleList" :tags="tagsList" :movieInfo="item" :key="item._id"></DetailItem>
+        <DetailItem v-for="item in preSaleList" :tags="tagsList" :movieInfo="item" :key="item._id"></DetailItem>
       </div>
     </div>
   </div>

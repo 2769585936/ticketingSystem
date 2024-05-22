@@ -22,7 +22,7 @@ const btnLogin = async () => {
     const data = await logonApi({
       phone: formLogin.value.phone,
       password: md5(formLogin.value.password)
-    })
+    }).catch(err => {})
     if (data) {
       const { data: res, token } = data
       localStorage.token = token
