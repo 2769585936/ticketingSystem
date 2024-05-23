@@ -18,3 +18,9 @@ export const preSaleApi = params => {
     params
   })
 }
+
+export const getMovieInfoApi = params => {
+  return request.get('movieInfo', {
+    params
+  })
+}

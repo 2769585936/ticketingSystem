@@ -1,29 +1,16 @@
-<template>
-  <div class="main">
-    <div class="container">
-      <ul class="nav-nar">
-        <li class="active">
-          <router-link to="/index"> 選擇場次 </router-link>
-        </li>
-        <li class="active" @click="$router.push('/ticketpurchasestage')">選擇座位</li>
-        <li aria-disabled="" @click="$router.push('/ticketpurchasestage/confirmorder')">確認</li>
-        <li>成功</li>
-      </ul>
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component adc="adc" v-model:cinemasIdInfo="cinemasIdInfo" :is="Component" />
-        </keep-alive>
-      </router-view>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { getCinemasIdApi } from '@/api/cinemas'
-import { onMounted, ref } from 'vue'
+import { onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import ChooseSeat from './components/ChooseSeat.vue'
+import ConfirmOrder from './components/ConfirmOrder.vue'
+import OrderPass from './components/OrderPass.vue'
 
 const route = useRoute()
+
+const currentComponent = ref(0)
+const components = [ChooseSeat, ConfirmOrder, OrderPass]
+
 const cinemasIdInfo = ref({})
 const getCinemasId = async () => {
   const { _id } = route.query
@@ -34,9 +21,29 @@ const getCinemasId = async () => {
   // console.log(res[0])
 }
 
-getCinemasId()
-// onMounted(() => getCinemasId())
+// 用户信息
+const userSelectedSeat = ref({})
+
+provide('userSeatSelected', userSelectedSeat)
+
+onMounted(() => getCinemasId())
 </script>
+
+<template>
+  <div class="main">
+    <div class="container">
+      <ul class="nav-nar">
+        <li class="active">選擇場次</li>
+        <li class="active" @click="currentComponent = 0">選擇座位</li>
+        <li @click="currentComponent = 1">確認</li>
+        <li @click="currentComponent = 2">成功</li>
+      </ul>
+      <keep-alive>
+        <component adc="adc" v-model:currentComponent="currentComponent" v-model:cinemasIdInfo="cinemasIdInfo" :is="components[currentComponent]" />
+      </keep-alive>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .main {

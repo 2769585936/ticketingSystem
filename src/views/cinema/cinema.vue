@@ -1,34 +1,63 @@
-<script setup></script>
+<script setup>
+import { getMovieInfoApi } from '@/api/filmInfo'
+import { getTagsApi } from '@/api/other'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const movieInfo = ref({})
+
+const tagsList = ref([])
+
+const getTagsList = async () => {
+  const { data: res } = await getTagsApi()
+  tagsList.value = res
+  console.log(res)
+}
+onMounted(() => getTagsList())
+
+const getMovieInfo = async () => {
+  const { data: res } = await getMovieInfoApi({ _id: route.query._fid })
+  console.log(res)
+  movieInfo.value = res[0]
+  console.log(movieInfo.value)
+}
+
+onMounted(() => getMovieInfo())
+</script>
 <template>
   <div class="main">
     <div class="wallpaper">
-      <img src="@/assets/images/wallpaper.png" alt="" />
+      <img :src="movieInfo.pictureUrl" alt="" />
 
       <div class="top-title">
         <div class="content container">
           <div class="left">
-            <img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" />
+            <img :src="movieInfo.pictureUrl" alt="" />
           </div>
           <div class="right">
             <div class="title">
-              <span>湄公河行動</span><span class="star"><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /><img src="@/assets/images/score-r.png" /></span
-              ><span class="score-count">6.6分</span>
+              <span>{{ movieInfo.filmTitle }}</span>
+              <span class="star" v-if="'score' in movieInfo">
+                <img v-for="(xing, index) of movieInfo.score" :key="index" src="@/assets/images/score-r.png" alt="" />
+                <img v-for="(xing, index) of 5 - movieInfo.score" :key="index" src="@/assets/images/score-v.png" alt="" />
+              </span>
+              <span class="score-count">{{ movieInfo.score * 2 }}分</span>
             </div>
             <div class="description">壹戰成神、壹觸即發</div>
             <div class="tabs">
-              <div class="tab">动作</div>
-              <div class="tab">爱情</div>
-              <div class="tab">喜剧</div>
+              <div class="tab" v-for="item of movieInfo.tag" :key="item">{{ tagsList[item].name }}</div>
             </div>
-            <div class="date-time">2019年-10-01大陸上映 片長222分鍾</div>
+            <div class="date-time">2019年-10-01大陸上映 片長{{ movieInfo.duration }}分鍾</div>
             <div class="des">影片介紹</div>
-            <div class="details">
-              《姜子牙》是由霍爾果斯彩條屋影業有限公司、中傳合道文化發展有限公司出品的神話動作動畫電影，由程騰、李炜執導，鄭希、楊凝、圖特哈蒙、閻麽麽等擔任主要配音演員。該片講述了封神大戰之後，姜子牙因壹時之過被貶下凡間，失去神力，被世人唾棄。爲重回昆侖，姜子牙踏上旅途尋回自我的故事。該電影于2020年10月1日在中國內地、北美同步上映。
+            <div class="details ellipsis-multiline">
+              {{ movieInfo.describe }}
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <router-view></router-view>
   </div>
 </template>

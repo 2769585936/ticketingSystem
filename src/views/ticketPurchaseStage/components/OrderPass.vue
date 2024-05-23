@@ -119,6 +119,7 @@
   .btn-zuihou {
     margin-top: 50px;
     button {
+      color: white;
       width: 100%;
       height: 47px;
       background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);

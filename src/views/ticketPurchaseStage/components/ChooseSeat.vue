@@ -1,18 +1,21 @@
 <script setup>
-import { onMounted, ref, toRef, toRefs } from 'vue'
+import { inject, onMounted, ref, toRef, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
 const cinemasIdInfo = defineModel('cinemasIdInfo')
-
+const currentComponent = defineModel('currentComponent')
+const userSelectedSeat = inject('userSeatSelected')
 const orderSubmit = () => {
-  router.push('/ticketpurchasestage/confirmorder')
+  currentComponent.value = 1
 }
 
 // 用户选择的作为
-const userSelectedSeat = ref({})
+
 const selectSeated = zw => {
+  const { price } = cinemasIdInfo.value
+  const type = 'A票种'
   const { row, column, rowValue, columnValue } = zw
   let zuoweiRowIndex = row
   let zuoweiColunmIndex = column
@@ -24,7 +27,9 @@ const selectSeated = zw => {
     row: zuoweiRowIndex,
     column: zuoweiColunmIndex,
     rowValue,
-    columnValue
+    columnValue,
+    price,
+    type
   }
   console.log(userSelectedSeat)
 }
@@ -65,7 +70,6 @@ const deleteSeat = key => {
                 selectSeated({
                   row: rowIndex,
                   rowValue: row,
-
                   column: columnIndex,
                   columnValue: item
                 })

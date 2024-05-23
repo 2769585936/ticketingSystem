@@ -46,6 +46,8 @@ const xuanpiao = info => {
             <button @click="xuanpiao(item)">选座购票</button>
           </div>
         </div>
+
+        <div class="no-cinema" v-if="!cinemaList.length">附近没有更多影院或没有场次</div>
       </div>
     </div>
   </div>
@@ -82,6 +84,7 @@ const xuanpiao = info => {
   }
 
   .cineplexs {
+    min-height: 150px;
     .box {
       display: flex;
       align-items: center;
@@ -125,6 +128,11 @@ const xuanpiao = info => {
           color: white;
         }
       }
+    }
+    .no-cinema {
+      text-align: center;
+      font-size: 30px;
+      color: white;
     }
   }
 }

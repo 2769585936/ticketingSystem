@@ -1,40 +1,33 @@
 <script setup>
-import { onActivated, onDeactivated, onMounted, ref } from 'vue'
+import { computed, inject, onActivated, onDeactivated, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const cinemasIdInfo = defineModel('cinemasIdInfo')
+const currentComponent = defineModel('currentComponent')
+const userSelectedSeat = inject('userSeatSelected')
+
 const btnSubmit = () => {
-  router.push('/ticketpurchasestage/orderpass')
+  currentComponent.value = 2
 }
 
 onMounted(() => {
   console.log(989898)
 })
-onActivated(() => {
-  console.log('被激活了')
-})
+// onActivated(() => {
+//   console.log('被激活了')
+// })
 
-onDeactivated(() => {
-  console.log('被销毁了')
-})
+// onDeactivated(() => {
+//   console.log('被销毁了')
+// })
 const pheo = ref({
   phone: '',
   yzx: ''
 })
-const zuoList = ref([
-  {
-    id: 1,
-    type: 'A票种',
-    seat: '3排10座',
-    price: 30
-  },
-  {
-    id: 2,
-    type: 'A票种',
-    seat: '3排10座',
-    price: 30
-  }
-])
+const totalPrice = computed(() => {
+  return Object.keys(userSelectedSeat.value).length * (Object.values(userSelectedSeat.value)[0].price + 5)
+})
 </script>
 <template>
   <div class="main">
@@ -60,23 +53,23 @@ const zuoList = ref([
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in zuoList" :key="item.id">
-                <td class="img-content-td" :rowspan="zuoList.length + 1" align="center" valign="center" v-if="index == 0">
+              <tr v-for="(item, key, index, s) in userSelectedSeat" :key="item.id">
+                <td class="img-content-td" :rowspan="Object.keys(userSelectedSeat).length + 1" align="center" valign="center" v-if="index == 0">
                   <div class="information">
                     <div class="information-img">
-                      <img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" />
+                      <img :src="cinemasIdInfo._fid[0].pictureUrl" alt="" />
                     </div>
                     <div class="title-content">
-                      <p class="film-name">湄公河行動</p>
-                      <p class="text-qt">1張-總價：$450</p>
-                      <p class="text-qt">今天10-07 22:50（國語3D）</p>
-                      <p class="text-qt">萬達影城-A聽 3排15座</p>
+                      <p class="film-name">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
+                      <p class="text-qt">{{ Object.keys(userSelectedSeat).length }}張-總價：${{ totalPrice }}</p>
+                      <p class="text-qt">今天10-07 {{ cinemasIdInfo.startTime }}（國語3D）</p>
+                      <p class="text-qt">{{ cinemasIdInfo._cid[0].cinemaName }}-{{ cinemasIdInfo._cid[0].hall[cinemasIdInfo.hall] }}</p>
                     </div>
                   </div>
                 </td>
                 <td align="center">{{ item.type }}</td>
-                <td align="center">{{ item.seat }}</td>
-                <td align="center">{{ item.price }}</td>
+                <td align="center">{{ item.row + 1 }}排{{ item.column + 1 }}座</td>
+                <td align="center">${{ item.price }}</td>
               </tr>
               <tr>
                 <td align="center">服务费</td>
