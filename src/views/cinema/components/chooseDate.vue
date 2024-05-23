@@ -18,7 +18,10 @@
               <button
                 @click="
                   $router.push({
-                    path: '/ticketpurchasestage'
+                    path: '/ticketpurchasestage',
+                    query: {
+                      _id: item._id
+                    }
                   })
                 "
               >

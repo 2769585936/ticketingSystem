@@ -1,9 +1,36 @@
 <script setup>
+import { onMounted, ref, toRef, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const cinemasIdInfo = defineModel('cinemasIdInfo')
+
 const orderSubmit = () => {
   router.push('/ticketpurchasestage/confirmorder')
+}
+
+// 用户选择的作为
+const userSelectedSeat = ref({})
+const selectSeated = zw => {
+  const { row, column, rowValue, columnValue } = zw
+  let zuoweiRowIndex = row
+  let zuoweiColunmIndex = column
+  if (columnValue.isHide || columnValue.isSelected) return
+  for (let index = 0; index < column; index++) {
+    rowValue[index].isHide && zuoweiColunmIndex--
+  }
+  userSelectedSeat.value[row + '-' + column] = {
+    row: zuoweiRowIndex,
+    column: zuoweiColunmIndex,
+    rowValue,
+    columnValue
+  }
+  console.log(userSelectedSeat)
+}
+
+const deleteSeat = key => {
+  delete userSelectedSeat.value[key]
 }
 </script>
 <template>
@@ -28,56 +55,55 @@ const orderSubmit = () => {
       <!-- 座位列表 -->
       <div class="seating-area">
         <div class="column">
-          <div class="col-index" v-for="list in 10">{{ list }}</div>
+          <div class="col-index" v-for="(list, index) in cinemasIdInfo.seat">{{ index + 1 }}</div>
         </div>
         <div class="seating-area-zuowei">
-          <div class="zuowei-content row" v-for="list in 10" :key="list">
-            <div class="zuowei" v-for="item in 16" :key="item">
-              <div class="zuowei icon-bg-can" v-if="item != 1 || list == 10"></div>
+          <div class="zuowei-content row" v-for="(row, rowIndex) in cinemasIdInfo.seat" :key="row">
+            <div
+              class="zuowei zuowei-boredr"
+              @click="
+                selectSeated({
+                  row: rowIndex,
+                  rowValue: row,
+
+                  column: columnIndex,
+                  columnValue: item
+                })
+              "
+              v-for="(item, columnIndex) in row"
+              :key="item"
+              :class="{ 'icon-bg-user-selected': userSelectedSeat[rowIndex + '-' + columnIndex] }"
+            >
+              <div class="zuowei icon-bg-can" :class="{ 'icon-bg-my-can': item.isSelected }" v-if="!item.isHide"></div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="buy-seat">
-        <div class="buy-box">
-          <span class="del-zuo">×</span>
-          <span class="zuo">2排9座</span>
-          <span class="jine">$200</span>
-        </div>
-        <div class="buy-box">
-          <span class="del-zuo">×</span>
-          <span class="zuo">2排9座</span>
-          <span class="jine">$200</span>
-        </div>
-        <div class="buy-box">
-          <span class="del-zuo">×</span>
-          <span class="zuo">2排9座</span>
-          <span class="jine">$200</span>
-        </div>
-        <div class="buy-box">
-          <span class="del-zuo">×</span>
-          <span class="zuo">2排9座</span>
+        <div class="buy-box" v-for="(item, key) in userSelectedSeat">
+          <span class="del-zuo" @click="deleteSeat(key)">×</span>
+          <span class="zuo">{{ item.row + 1 }}排{{ item.column + 1 }}座</span>
           <span class="jine">$200</span>
         </div>
       </div>
       <button class="queren-buy" @click="orderSubmit">確認</button>
     </div>
-    <div class="right">
+    <div class="right" v-if="cinemasIdInfo._fid">
       <div class="title-top">
         <div class="img">
-          <img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" />
+          <img :src="cinemasIdInfo._fid[0].pictureUrl" alt="" />
         </div>
         <div class="details">
-          <p class="title">湄公河行動</p>
-          <p class="history">2019年-10-01大陸上映片長222分鍾</p>
+          <p class="title">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
+          <p class="history">{{ cinemasIdInfo._fid[0].issueDate }}大陸上映片長{{ cinemasIdInfo._fid[0].duration }}分鍾</p>
         </div>
       </div>
 
       <div class="introduce">
         <h3 class="jieshao">影片介紹</h3>
         <p class="miaoshu">
-          《姜子牙》是由霍爾果斯彩條屋影業有限公司、中傳合道文化發展有限公司出品的神話動作動畫電影，由程騰、李炜執導，鄭希、楊凝、圖特哈蒙、閻麽麽等擔任主要配音演員。該片講述了封神大戰之後，姜子牙因壹時之過被貶下凡間，失去神力，被世人唾棄。爲重回昆侖，姜子牙踏上旅途尋回自我的故事。該電影于2020年10月1日在中國內地、北美同步上映。
+          {{ cinemasIdInfo._fid[0].describe }}
         </p>
       </div>
     </div>
@@ -96,7 +122,7 @@ const orderSubmit = () => {
     .zuowei {
       width: 26px;
       height: 23px;
-      border-radius: 10px 10px 0 0;
+      overflow: hidden;
     }
 
     // 可选
@@ -112,6 +138,11 @@ const orderSubmit = () => {
     // 已选
     .icon-bg-my-can {
       background: rgba(255, 109, 83, 1);
+    }
+    // 预选
+    .icon-bg-user-selected {
+      overflow: hidden;
+      border: 3px solid rgba(255, 109, 83, 1);
     }
     .icons {
       width: 200px;
@@ -170,6 +201,10 @@ const orderSubmit = () => {
           height: 26px;
           display: flex;
           justify-content: space-between;
+          .zuowei-boredr {
+            overflow: hidden;
+            border-radius: 10px 10px 0 0;
+          }
         }
       }
     }
@@ -220,6 +255,7 @@ const orderSubmit = () => {
       margin: 20px auto;
       width: 336px;
       height: 47px;
+      color: white;
       background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
     }
   }

@@ -11,3 +11,10 @@ export const getCinemasTimeApi = params => {
     params
   })
 }
+
+//
+export const getCinemasIdApi = params => {
+  return request.get('cinemasid', {
+    params
+  })
+}

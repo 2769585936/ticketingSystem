@@ -11,14 +11,32 @@
       </ul>
       <router-view v-slot="{ Component }">
         <keep-alive>
-          <component :is="Component" />
+          <component adc="adc" v-model:cinemasIdInfo="cinemasIdInfo" :is="Component" />
         </keep-alive>
       </router-view>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { getCinemasIdApi } from '@/api/cinemas'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const cinemasIdInfo = ref({})
+const getCinemasId = async () => {
+  const { _id } = route.query
+  const { data: res } = await getCinemasIdApi({
+    _id
+  })
+  cinemasIdInfo.value = res[0]
+  // console.log(res[0])
+}
+
+getCinemasId()
+// onMounted(() => getCinemasId())
+</script>
 
 <style lang="scss" scoped>
 .main {
