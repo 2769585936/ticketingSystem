@@ -1,13 +1,34 @@
 <script setup>
 import { inject, onMounted, ref, toRef, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
+import { createPreOrderApi } from '@/api/cinemas/index'
 
 const router = useRouter()
 
 const cinemasIdInfo = defineModel('cinemasIdInfo')
 const currentComponent = defineModel('currentComponent')
 const userSelectedSeat = inject('userSeatSelected')
-const orderSubmit = () => {
+const orderId = inject('orderId')
+
+const orderSubmit = async () => {
+  if (!Object.keys(userSelectedSeat.value).length) return
+
+  const count = Object.keys(userSelectedSeat.value).length
+  const price = cinemasIdInfo.value.price
+  const createOrderObj = {
+    _changciid: cinemasIdInfo.value._id,
+    _userid: '664bf30714352ec40e7bea45',
+    seat: userSelectedSeat.value,
+    xiaofei: 5,
+    count: count,
+    price: price,
+    totalcost: (price + 5) * count,
+    orderStartTime: Date.now(),
+    currentOrderState: 2
+  }
+
+  const { data: res } = await createPreOrderApi(createOrderObj)
+  orderId.value = res._id
   currentComponent.value = 1
 }
 
@@ -88,7 +109,7 @@ const deleteSeat = key => {
         <div class="buy-box" v-for="(item, key) in userSelectedSeat">
           <span class="del-zuo" @click="deleteSeat(key)">×</span>
           <span class="zuo">{{ item.row + 1 }}排{{ item.column + 1 }}座</span>
-          <span class="jine">$200</span>
+          <span class="jine">${{ item.price }}</span>
         </div>
       </div>
       <button class="queren-buy" @click="orderSubmit">確認</button>

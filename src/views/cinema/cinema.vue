@@ -29,7 +29,6 @@ onMounted(() => getMovieInfo())
   <div class="main">
     <div class="wallpaper">
       <img :src="movieInfo.pictureUrl" alt="" />
-
       <div class="top-title">
         <div class="content container">
           <div class="left">

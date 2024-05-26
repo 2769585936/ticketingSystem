@@ -42,19 +42,31 @@ const router = createRouter({
             },
             {
               path: 'ticketpurchasestage',
+              meta: {
+                isToken: true
+              },
               component: () => import('@/views/ticketPurchaseStage/index.vue')
             },
             // 我的资料
             {
               path: 'myprofile',
+              meta: {
+                isToken: true
+              },
               component: () => import('@/views/myprofile/index.vue'),
               children: [
                 {
                   path: '',
+                  meta: {
+                    isToken: true
+                  },
                   component: () => import('@/views/myprofile/components/AllOrder.vue')
                 },
                 {
                   path: 'orderdetails/:id',
+                  meta: {
+                    isToken: true
+                  },
                   component: () => import('@/views/myprofile/components/OrderDetails.vue')
                 }
               ]
@@ -68,6 +80,20 @@ const router = createRouter({
       ]
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isToken) return next()
+  if (localStorage.token) {
+    next()
+  } else {
+    next({
+      path: '/login',
+      query: {
+        fromRoute: from.path
+      }
+    })
+  }
 })
 
 export default router

@@ -2,30 +2,42 @@
 import { computed, inject, onActivated, onDeactivated, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { getOrderApi, updateOrderApi } from '@/api/order/index'
+
 const router = useRouter()
 const cinemasIdInfo = defineModel('cinemasIdInfo')
 const currentComponent = defineModel('currentComponent')
-const userSelectedSeat = inject('userSeatSelected')
+const userSelectedSeat = ref(null)
+const orderId = inject('orderId')
 
-const btnSubmit = () => {
+const btnSubmit = async () => {
+  const { data: res } = await updateOrderApi({
+    currentOrderState: 1,
+    _id: orderId.value
+  })
   currentComponent.value = 2
 }
 
-onMounted(() => {
-  console.log(989898)
-})
-// onActivated(() => {
-//   console.log('被激活了')
-// })
+const orderInfo = ref({})
+const getOrderInfo = async () => {
+  const { data: res } = await getOrderApi({
+    _id: orderId.value
+  })
+  orderInfo.value = res
+  userSelectedSeat.value = res.seat
+}
 
-// onDeactivated(() => {
-//   console.log('被销毁了')
-// })
+onActivated(() => {
+  console.log('被激活了')
+  getOrderInfo()
+})
+
 const pheo = ref({
   phone: '',
   yzx: ''
 })
 const totalPrice = computed(() => {
+  if (!userSelectedSeat.value) return 0
   return Object.keys(userSelectedSeat.value).length * (Object.values(userSelectedSeat.value)[0].price + 5)
 })
 </script>
@@ -52,7 +64,7 @@ const totalPrice = computed(() => {
                 <th>单价</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="userSelectedSeat">
               <tr v-for="(item, key, index, s) in userSelectedSeat" :key="item.id">
                 <td class="img-content-td" :rowspan="Object.keys(userSelectedSeat).length + 1" align="center" valign="center" v-if="index == 0">
                   <div class="information">
@@ -61,7 +73,7 @@ const totalPrice = computed(() => {
                     </div>
                     <div class="title-content">
                       <p class="film-name">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
-                      <p class="text-qt">{{ Object.keys(userSelectedSeat).length }}張-總價：${{ totalPrice }}</p>
+                      <p class="text-qt">{{ Object.keys(userSelectedSeat).length }}張-總價：${{ orderInfo.totalcost }}</p>
                       <p class="text-qt">今天10-07 {{ cinemasIdInfo.startTime }}（國語3D）</p>
                       <p class="text-qt">{{ cinemasIdInfo._cid[0].cinemaName }}-{{ cinemasIdInfo._cid[0].hall[cinemasIdInfo.hall] }}</p>
                     </div>
@@ -100,7 +112,7 @@ const totalPrice = computed(() => {
         <p class="jine-content">
           <span class="jine-text">金额:</span>
           <span class="duona">$</span>
-          <span class="total-prices">490.88</span>
+          <span class="total-prices">{{ Number(orderInfo.totalcost).toFixed(2) }}</span>
         </p>
         <p class="queding-order">
           <button @click="btnSubmit">确认</button>

@@ -1,4 +1,14 @@
-<script setup></script>
+<script setup>
+import { useUserInfo } from '@/stores/userInfo'
+
+const userInfoStore = useUserInfo()
+
+const clickUserLogoBtn = key => {
+  if (key == 'exit') {
+    userInfoStore.exitUser()
+  }
+}
+</script>
 <template>
   <div class="layout">
     <header>
@@ -28,8 +38,18 @@
           <div class="header-bar"></div>
         </div>
         <div class="right">
-          <span @click="$router.push('/login')">登录</span>
-          <span>注销</span>
+          <div v-if="!userInfoStore.userInfo" @click="$router.push('/login')">登录</div>
+          <div v-else>
+            <el-dropdown @command="clickUserLogoBtn">
+              <el-avatar class="user-logo" :src="userInfoStore.userInfo.userPicture" />
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item command="userdata">查看个人资料</el-dropdown-item>
+                  <el-dropdown-item command="exit">退出</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
         </div>
       </div>
     </header>
@@ -137,6 +157,10 @@ header {
       width: 105px;
       @include flex-center;
       justify-content: space-between;
+
+      .user-logo {
+        outline: none;
+      }
     }
   }
 }

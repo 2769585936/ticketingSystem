@@ -1,4 +1,25 @@
-<script setup></script>
+<script setup>
+import { getOrderApi } from '@/api/order'
+import { ref, inject, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const cinemasIdInfo = defineModel('cinemasIdInfo')
+const userSelectedSeat = ref(null)
+const orderId = inject('orderId')
+
+const orderInfo = ref({})
+const getOrderInfo = async () => {
+  const { data: res } = await getOrderApi({
+    _id: orderId.value
+  })
+  orderInfo.value = res
+  console.log(res)
+}
+
+onMounted(() => {
+  getOrderInfo()
+})
+</script>
 <template>
   <div class="content">
     <div class="movie-information">
@@ -23,10 +44,10 @@
       <h4>規則說明</h4>
       <ul>
         <li>（1）提前30分鐘取票，否則失效</li>
-        <li>（1）提前30分鐘取票，否則失效</li>
-        <li>（1）提前30分鐘取票，否則失效</li>
-        <li>（1）提前30分鐘取票，否則失效</li>
-        <li>（1）提前30分鐘取票，否則失效</li>
+        <li>（2）3次購票未取，則6個月內無法再次購票</li>
+        <li>（3）電影放映前30分鐘請至櫃台出示QR Code進行付款取票，否則失效</li>
+        <li>（4）該帳號如3次訂票未取票付款，則6個月內無法再次訂票</li>
+        <li>（5）訂票後無法退換票</li>
       </ul>
     </div>
     <div class="btn-zuihou">

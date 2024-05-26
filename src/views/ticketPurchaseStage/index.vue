@@ -23,8 +23,10 @@ const getCinemasId = async () => {
 
 // 用户信息
 const userSelectedSeat = ref({})
-
+// 用户订单
+const orderId = ref(null)
 provide('userSeatSelected', userSelectedSeat)
+provide('orderId', orderId)
 
 onMounted(() => getCinemasId())
 </script>

@@ -2,12 +2,14 @@
 import md5 from 'md5'
 import { ref } from 'vue'
 import { logonApi } from '@/api/login'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useUserInfo } from '@/stores/userInfo'
+
 // vue 3.4 最新写法 子向父修改值
 const componentIs = defineModel('componentIs')
 
 const router = useRouter()
-
+const route = useRoute()
 const formLogin = ref({
   phone: '',
   password: ''
@@ -16,8 +18,10 @@ const componentIsChange = index => {
   componentIs.value = index
 }
 
+const userInfoStore = useUserInfo()
 // 登录
 const btnLogin = async () => {
+  console.log(router)
   if (formLogin.value.phone && formLogin.value.password) {
     const data = await logonApi({
       phone: formLogin.value.phone,
@@ -25,8 +29,10 @@ const btnLogin = async () => {
     }).catch(err => {})
     if (data) {
       const { data: res, token } = data
-      localStorage.token = token
-      router.replace('/')
+      userInfoStore.setUesrInfo(res, token)
+
+      const fromRoute = route.query.fromRoute
+      fromRoute ? router.replace(fromRoute) : router.replace('/')
     }
   } else {
     console.log('用户名或密码不能为空')

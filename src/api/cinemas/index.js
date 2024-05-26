@@ -18,3 +18,8 @@ export const getCinemasIdApi = params => {
     params
   })
 }
+
+// 创建订单接口
+export const createPreOrderApi = data => {
+  return request.post('createUserOrder', data)
+}

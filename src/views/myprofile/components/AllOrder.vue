@@ -1,53 +1,54 @@
 <script setup>
-import { ref } from 'vue'
+import { getOrdersApi } from '@/api/order'
+import { useUserInfo } from '@/stores/userInfo'
+import { dayjs } from 'element-plus'
+import { computed, onMounted, ref } from 'vue'
+
+import OrderItem from './OrderItem.vue'
+
+import { deleteOrdersApi } from '@/api/order'
+
+const { userInfo } = useUserInfo()
+const orderList = ref([])
+const pageObj = ref({
+  total: 0,
+  currentIndex: 1,
+  size: 3
+})
+const getOrders = async () => {
+  console.log(userInfo._id)
+  const { data: res } = await getOrdersApi({
+    userid: userInfo._id,
+    type: 'all'
+  })
+  orderList.value = res
+  pageObj.value.total = res.length
+}
+
+onMounted(() => getOrders())
+
+const currentList = computed(() => {
+  const { currentIndex, size } = pageObj.value
+  const list = orderList.value.slice((currentIndex - 1) * size, currentIndex * size)
+  console.log(list)
+  return list
+}, {})
+
+// 删除事件
+const deleteOrders = async id => {
+  const { data: res } = await deleteOrdersApi({
+    _id: id
+  })
+  getOrders()
+}
 </script>
 <template>
   <div class="title-box">所有订单</div>
   <div class="order-content">
-    <div class="rongqi">
-      <div class="box">
-        <span>萬達影城A聽</span>
-        <span class="shengyushijian">剩餘時間:10:10分</span>
-        <span class="shanchu">删除</span>
-      </div>
-      <div class="order-details">
-        <div class="img-content">
-          <div class="img-logo"><img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" /></div>
-          <div class="img-text">
-            <p class="title">湄公河</p>
-            <p class="shijian">10月10日22:50</p>
-            <p class="zuowei">A聽5排16號</p>
-          </div>
-        </div>
-        <div class="qita">$490</div>
-        <div class="qita">已付款</div>
-        <div class="qita" @click="$router.push('/myprofile/orderdetails/999')">查看詳情</div>
-      </div>
-    </div>
-
-    <div class="rongqi">
-      <div class="box">
-        <span>萬達影城A聽</span>
-        <span class="shengyushijian">剩餘時間:10:10分</span>
-        <span class="shanchu">删除</span>
-      </div>
-      <div class="order-details">
-        <div class="img-content">
-          <div class="img-logo"><img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" /></div>
-          <div class="img-text">
-            <p class="title">湄公河</p>
-            <p class="shijian">10月10日22:50</p>
-            <p class="zuowei">A聽5排16號</p>
-          </div>
-        </div>
-        <div class="qita">$490</div>
-        <div class="qita">已付款</div>
-        <div class="qita">查看詳情</div>
-      </div>
-    </div>
+    <OrderItem :deleteOrders :item="item" v-for="item of currentList" :key="item._id"> </OrderItem>
   </div>
 
-  <el-pagination class="fenye" background next-text="下一页" prev-text="上一页" layout="prev, pager, next, total, jumper" :total="50" />
+  <el-pagination hide-on-single-page class="fenye" v-model:current-page="pageObj.currentIndex" background next-text="下一页" :default-page-size="3" prev-text="上一页" layout=" prev, pager, next, total, jumper" :total="pageObj.total" />
 </template>
 
 <style scoped lang="scss">
@@ -58,60 +59,6 @@ import { ref } from 'vue'
   margin-top: 20px;
   padding-top: 30px;
   border-top: 1px solid rgba(211, 211, 211, 0.2);
-  .box {
-    padding: 20px 30px;
-    background: rgba(211, 211, 211, 0.2);
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.09);
-    display: flex;
-    .shengyushijian {
-      flex: 1;
-      text-align: right;
-      margin-right: 20px;
-    }
-    .shanchu {
-      justify-self: end;
-    }
-  }
-  .order-details {
-    padding: 20px 30px 35px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .img-content {
-      display: flex;
-      gap: 20px;
-      .img-logo {
-        img {
-          height: 130px;
-        }
-      }
-      .img-text {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 15px;
-        p {
-          font-size: 14px;
-          line-height: 20px;
-          opacity: 0.6;
-        }
-        .title {
-          font-size: 16px;
-          letter-spacing: 0px;
-          line-height: 22px;
-          opacity: 1;
-        }
-      }
-    }
-
-    .qita {
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 20px;
-      color: rgba(255, 255, 255, 1);
-      opacity: 0.9;
-    }
-  }
 }
 
 // 修改分页样式
