@@ -17,7 +17,6 @@ const tagsList = ref([])
 const getTags = async () => {
   const { data: res } = await getTagsApi()
   tagsList.value = res
-  console.log(res)
 }
 
 onMounted(() => getTags())

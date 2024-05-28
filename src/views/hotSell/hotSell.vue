@@ -7,7 +7,6 @@ const hotSaleList = ref([])
 const getHotSale = async () => {
   const { data: res } = await hotSaleApi()
   hotSaleList.value = res
-  console.log(res)
 }
 onMounted(() => getHotSale())
 
@@ -16,7 +15,6 @@ const tagsList = ref([])
 const getTags = async () => {
   const { data: res } = await getTagsApi()
   tagsList.value = res
-  console.log(res)
 }
 
 onMounted(() => getTags())

@@ -51,7 +51,6 @@ const getCinemasTime = async () => {
   const { _cid, _fid } = route.query
   const { data: res } = await getCinemasTimeApi({ _cid, _fid })
   CinemasTimeList.value = res
-  console.log(res)
 }
 
 onMounted(() => getCinemasTime())

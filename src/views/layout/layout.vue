@@ -1,11 +1,15 @@
 <script setup>
 import { useUserInfo } from '@/stores/userInfo'
+import { useRouter } from 'vue-router'
 
 const userInfoStore = useUserInfo()
-
+const router = useRouter()
 const clickUserLogoBtn = key => {
   if (key == 'exit') {
     userInfoStore.exitUser()
+  }
+  if (key == 'userdata') {
+    router.push('/myprofile/personal')
   }
 }
 </script>
@@ -23,16 +27,16 @@ const clickUserLogoBtn = key => {
               <div>首页</div>
             </div>
           </router-link>
-          <router-link :class="{ active: $route.href == '/sss' }" to="/index">
+          <router-link :class="{ active: $route.href == '/movietheatre' }" to="/movietheatre">
             <div class="text">选择剧院</div>
           </router-link>
-          <router-link :class="{ active: $route.href == '/hotsell' }" to="/hotsell">
+          <router-link :class="{ active: $route.href.includes('/hotsell') }" to="/hotsell">
             <div class="text">熱售中</div>
           </router-link>
-          <router-link :class="{ active: $route.href == '/presell' }" to="/presell">
+          <router-link :class="{ active: $route.href.includes('/presell') }" to="/presell">
             <div class="text">即將上映</div>
           </router-link>
-          <router-link :class="{ active: $route.href == '/myprofile' }" to="/myprofile">
+          <router-link :class="{ active: $route.href.includes('/myprofile') }" to="/myprofile/personal">
             <div class="text">我的資料</div>
           </router-link>
           <div class="header-bar"></div>
@@ -136,7 +140,7 @@ header {
         width: 36px;
       }
       & .active:nth-child(2) ~ .header-bar {
-        left: 90px;
+        left: 76px;
         width: 72px;
       }
       & .active:nth-child(3) ~ .header-bar {

@@ -1,4 +1,31 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const nav = ref([
+  {
+    title: '个人资料',
+    path: '/myprofile/personal'
+  },
+  {
+    title: '所有訂單',
+    path: '/myprofile/order/all'
+  },
+  {
+    title: '待支付订单',
+    path: '/myprofile/order/unpai'
+  },
+  {
+    title: '已支付订单',
+    path: '/myprofile/order/pai'
+  }
+])
+const changeTab = path => {
+  router.push(path)
+}
+</script>
 
 <template>
   <div class="layout">
@@ -6,10 +33,9 @@
       <div class="left">
         <div class="subject">个人中心</div>
         <ul>
-          <li class="active">个人资料</li>
-          <li>所有訂單</li>
-          <li>待使用訂單</li>
-          <li>已使用訂單</li>
+          <li @click="changeTab(item.path)" :class="{ active: $route.path == item.path }" v-for="(item, index) of nav" :key="index">
+            {{ item.title }}
+          </li>
         </ul>
       </div>
       <div class="right">

@@ -17,7 +17,6 @@ const getHotSale = async () => {
     limit: 10
   }
   const { data: res } = await hotSaleApi(obj)
-  console.log(res)
   hotSaleList.value = res
 }
 

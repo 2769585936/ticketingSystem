@@ -7,7 +7,10 @@ import { computed, onMounted, ref } from 'vue'
 import OrderItem from './OrderItem.vue'
 
 import { deleteOrdersApi } from '@/api/order'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
+const route = useRoute()
 
+let type = ref(route.params.type || 'all')
 const { userInfo } = useUserInfo()
 const orderList = ref([])
 const pageObj = ref({
@@ -15,11 +18,17 @@ const pageObj = ref({
   currentIndex: 1,
   size: 3
 })
+
+onBeforeRouteUpdate((to, from) => {
+  type.value = to.params.type
+  getOrders()
+})
+
 const getOrders = async () => {
-  console.log(userInfo._id)
+  userInfo._id
   const { data: res } = await getOrdersApi({
     userid: userInfo._id,
-    type: 'all'
+    type: type.value
   })
   orderList.value = res
   pageObj.value.total = res.length
@@ -30,7 +39,6 @@ onMounted(() => getOrders())
 const currentList = computed(() => {
   const { currentIndex, size } = pageObj.value
   const list = orderList.value.slice((currentIndex - 1) * size, currentIndex * size)
-  console.log(list)
   return list
 }, {})
 
@@ -41,9 +49,17 @@ const deleteOrders = async id => {
   })
   getOrders()
 }
+
+const titleText = computed(() => {
+  let str = ''
+  if (type.value == 'all') str = '所有订单'
+  if (type.value == 'unpai') str = '待支付订单'
+  if (type.value == 'pai') str = '已支付订单'
+  return str
+})
 </script>
 <template>
-  <div class="title-box">所有订单</div>
+  <div class="title-box">{{ titleText }}</div>
   <div class="order-content">
     <OrderItem :deleteOrders :item="item" v-for="item of currentList" :key="item._id"> </OrderItem>
   </div>

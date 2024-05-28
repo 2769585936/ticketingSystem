@@ -47,6 +47,11 @@ const router = createRouter({
               },
               component: () => import('@/views/ticketPurchaseStage/index.vue')
             },
+            // 影城
+            {
+              path: 'movietheatre',
+              component: () => import('@/views/movietheatre/index.vue')
+            },
             // 我的资料
             {
               path: 'myprofile',
@@ -54,13 +59,21 @@ const router = createRouter({
                 isToken: true
               },
               component: () => import('@/views/myprofile/index.vue'),
+              redirect: 'myprofile/personal',
               children: [
                 {
-                  path: '',
+                  path: 'personal',
                   meta: {
                     isToken: true
                   },
-                  component: () => import('@/views/myprofile/components/AllOrder.vue')
+                  component: () => import('@/views/myprofile/components/PersonalData.vue')
+                },
+                {
+                  path: 'order/:type',
+                  meta: {
+                    isToken: true
+                  },
+                  component: () => import('@/views/myprofile/components/Order.vue')
                 },
                 {
                   path: 'orderdetails/:id',

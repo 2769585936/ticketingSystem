@@ -3,6 +3,9 @@ import { useCountDown } from '@/utils/index'
 import { dayjs } from 'element-plus'
 import { computed } from 'vue'
 
+import { ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+
 const time = useCountDown()
 const { item, deleteOrders } = defineProps(['item', 'deleteOrders'])
 time.start(item.orderStartTime)

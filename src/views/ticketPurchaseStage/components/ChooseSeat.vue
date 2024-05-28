@@ -2,9 +2,11 @@
 import { inject, onMounted, ref, toRef, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { createPreOrderApi } from '@/api/cinemas/index'
+import { useUserInfo } from '@/stores/userInfo'
 
 const router = useRouter()
 
+const userStore = useUserInfo()
 const cinemasIdInfo = defineModel('cinemasIdInfo')
 const currentComponent = defineModel('currentComponent')
 const userSelectedSeat = inject('userSeatSelected')
@@ -12,12 +14,12 @@ const orderId = inject('orderId')
 
 const orderSubmit = async () => {
   if (!Object.keys(userSelectedSeat.value).length) return
-
+  userStore.userInfo
   const count = Object.keys(userSelectedSeat.value).length
   const price = cinemasIdInfo.value.price
   const createOrderObj = {
     _changciid: cinemasIdInfo.value._id,
-    _userid: '664bf30714352ec40e7bea45',
+    _userid: userStore.userInfo._id,
     seat: userSelectedSeat.value,
     xiaofei: 5,
     count: count,
@@ -52,7 +54,6 @@ const selectSeated = zw => {
     price,
     type
   }
-  console.log(userSelectedSeat)
 }
 
 const deleteSeat = key => {

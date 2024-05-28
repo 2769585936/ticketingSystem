@@ -3,6 +3,8 @@ import { useRoute, useRouter } from 'vue-router'
 import { deleteOrdersApi, getOrdersApi } from '@/api/order'
 import { onMounted, ref, computed } from 'vue'
 import { dayjs } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,7 +17,6 @@ const getOrders = async () => {
     type: 'id'
   })
   orderInfo.value = res[0]
-  console.log(res[0])
 }
 
 onMounted(() => getOrders())
@@ -37,7 +38,6 @@ const deleteOpen = id => {
     await deleteOrdersApi({
       _id: id
     })
-
     ElMessage({
       type: 'success',
       message: '删除成功'
