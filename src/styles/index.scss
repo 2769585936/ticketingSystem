@@ -45,10 +45,10 @@ input {
   text-overflow: ellipsis;
 }
 
-// @media (max-width: 1200px) {
-//   .container {
-//     width: auto;
-//     min-width: 768px;
-//     padding: 0 15px;
-//   }
-// }
+@media (max-width: 1200px) {
+  .container {
+    width: auto;
+    min-width: 768px;
+    padding: 0 15px;
+  }
+}

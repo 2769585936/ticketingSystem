@@ -4,8 +4,10 @@ import { getCinemasApi } from '@/api/cinemas'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+
 const router = useRouter()
 const cinemaList = ref([])
+
 const getCineme = async () => {
   const { data: res } = await getCinemasApi({
     id: route.query._fid

@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 
 const userInfoStore = useUserInfo()
 const router = useRouter()
+
 const clickUserLogoBtn = key => {
   if (key == 'exit') {
     userInfoStore.exitUser()
@@ -23,9 +24,7 @@ const clickUserLogoBtn = key => {
         </div>
         <div class="content">
           <router-link :class="{ active: $route.href == '/index' }" to="/index">
-            <div class="text">
-              <div>首页</div>
-            </div>
+            <div class="text">首页</div>
           </router-link>
           <router-link :class="{ active: $route.href == '/movietheatre' }" to="/movietheatre">
             <div class="text">选择剧院</div>
@@ -89,7 +88,7 @@ header {
     letter-spacing: 0px;
 
     .left {
-      width: 192px;
+      max-width: 192px;
       color: rgba(255, 109, 83, 1);
       @include flex-center;
       justify-content: space-between;
@@ -100,7 +99,14 @@ header {
       }
 
       .text {
+        margin-left: 10px;
         width: 167px;
+      }
+
+      @media (max-width: 840px) {
+        .text {
+          display: none;
+        }
       }
     }
 

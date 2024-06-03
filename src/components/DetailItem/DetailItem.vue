@@ -5,7 +5,7 @@ defineProps(['movieInfo', 'tags'])
 <template>
   <div class="box">
     <div class="img">
-      <img :src="movieInfo.pictureUrl" />
+      <img v-lazy-img="movieInfo.pictureUrl" />
     </div>
     <div class="details-content">
       <p class="title">
@@ -31,14 +31,11 @@ defineProps(['movieInfo', 'tags'])
 </template>
 <style lang="scss" scoped>
 .box {
-  height: 240px;
   display: flex;
   flex-wrap: wrap;
-
   .img {
     width: 175px;
-    height: 100%;
-
+    background: #f1f2f3;
     img {
       width: 100%;
       height: 100%;

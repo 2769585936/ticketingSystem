@@ -6,7 +6,6 @@ const cinemaList = ref([])
 const getCinemasList = async () => {
   const { data: res } = await getCinemasApi()
   cinemaList.value = res
-  console.log(res)
 }
 
 onMounted(() => getCinemasList())

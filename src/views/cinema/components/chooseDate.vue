@@ -41,12 +41,14 @@ import dayjs from 'dayjs'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 const dateIndex = ref(1)
+
 const getDateTime = date => {
   return dayjs(date).format('MM月DD日')
 }
 
 const route = useRoute()
 const CinemasTimeList = ref([])
+
 const getCinemasTime = async () => {
   const { _cid, _fid } = route.query
   const { data: res } = await getCinemasTimeApi({ _cid, _fid })

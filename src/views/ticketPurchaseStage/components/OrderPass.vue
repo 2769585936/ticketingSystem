@@ -9,7 +9,6 @@ const orderId = inject('orderId')
 
 const orderInfo = ref(null)
 const getOrders = async () => {
-  console.log()
   const { data: res } = await getOrdersApi({
     _id: orderId.value,
     type: 'id'
@@ -34,7 +33,6 @@ const dayf = data => {
   return dayjs(data).format('MM月DD日')
 }
 const seatStr = computed(() => {
-  console.log(orderInfo.value.seat)
   let str = ''
   const rowMap = new Map()
 
@@ -53,7 +51,7 @@ const seatStr = computed(() => {
     str += ')、'
   })
   str = str.replace(/、$/, '')
-  console.log(str)
+
   return str
 })
 </script>
