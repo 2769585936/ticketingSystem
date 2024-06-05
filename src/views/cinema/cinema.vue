@@ -12,15 +12,12 @@ const tagsList = ref([])
 const getTagsList = async () => {
   const { data: res } = await getTagsApi()
   tagsList.value = res
-  console.log(res)
 }
 onMounted(() => getTagsList())
 
 const getMovieInfo = async () => {
   const { data: res } = await getMovieInfoApi({ _id: route.query._fid })
-  console.log(res)
   movieInfo.value = res[0]
-  console.log(movieInfo.value)
 }
 
 onMounted(() => getMovieInfo())

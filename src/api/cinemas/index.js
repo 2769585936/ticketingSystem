@@ -12,7 +12,7 @@ export const getCinemasTimeApi = params => {
   })
 }
 
-//
+//或去影城信息
 export const getCinemasIdApi = params => {
   return request.get('cinemasid', {
     params

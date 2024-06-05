@@ -21,7 +21,6 @@ const componentIsChange = index => {
 const userInfoStore = useUserInfo()
 // 登录
 const btnLogin = async () => {
-  console.log(router)
   if (formLogin.value.phone && formLogin.value.password) {
     const data = await logonApi({
       phone: formLogin.value.phone,
@@ -35,7 +34,6 @@ const btnLogin = async () => {
       fromRoute ? router.replace(fromRoute) : router.replace('/')
     }
   } else {
-    console.log('用户名或密码不能为空')
   }
 }
 </script>

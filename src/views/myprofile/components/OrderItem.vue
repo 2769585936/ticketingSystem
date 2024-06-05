@@ -3,6 +3,10 @@ import { useCountDown } from '@/utils/index'
 import { dayjs } from 'element-plus'
 import { computed } from 'vue'
 
+import { ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-message-box.css'
+
 const time = useCountDown()
 const { item, deleteOrders } = defineProps(['item', 'deleteOrders'])
 time.start(item.orderStartTime)
@@ -23,13 +27,15 @@ const deleteOpen = id => {
   ElMessageBox.confirm('确定删除吗', '警告', {
     confirmButtonText: '确定',
     cancelButtonText: '取消'
-  }).then(() => {
-    deleteOrders(id)
-    ElMessage({
-      type: 'success',
-      message: '删除成功'
-    })
   })
+    .then(() => {
+      deleteOrders(id)
+      ElMessage({
+        type: 'success',
+        message: '删除成功'
+      })
+    })
+    .catch(() => {})
 }
 
 const frm = data => {

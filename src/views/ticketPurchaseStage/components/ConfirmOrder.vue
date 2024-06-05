@@ -28,7 +28,6 @@ const getOrderInfo = async () => {
 }
 
 onActivated(() => {
-  console.log('被激活了')
   getOrderInfo()
 })
 

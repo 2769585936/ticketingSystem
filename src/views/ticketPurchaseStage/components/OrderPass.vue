@@ -1,43 +1,79 @@
 <script setup>
-import { getOrderApi } from '@/api/order'
-import { ref, inject, onMounted } from 'vue'
+import { getOrdersApi } from '@/api/order'
+import { dayjs } from 'element-plus'
+import { ref, inject, onMounted, onActivated, computed } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const cinemasIdInfo = defineModel('cinemasIdInfo')
-const userSelectedSeat = ref(null)
 const orderId = inject('orderId')
 
-const orderInfo = ref({})
-const getOrderInfo = async () => {
-  const { data: res } = await getOrderApi({
-    _id: orderId.value
+const orderInfo = ref(null)
+const getOrders = async () => {
+  const { data: res } = await getOrdersApi({
+    _id: orderId.value,
+    type: 'id'
   })
-  orderInfo.value = res
-  console.log(res)
+  orderInfo.value = res[0]
 }
 
-onMounted(() => {
-  getOrderInfo()
+onMounted(() => getOrders())
+
+onActivated(() => {
+  getOrders()
+})
+
+const movies = computed(() => {
+  return orderInfo.value.movies[0]
+})
+const _cid = computed(() => {
+  return movies.value._cid[0]
+})
+
+const dayf = data => {
+  return dayjs(data).format('MM月DD日')
+}
+const seatStr = computed(() => {
+  let str = ''
+  const rowMap = new Map()
+
+  for (const val of Object.values(orderInfo.value.seat)) {
+    const { row, column } = val
+    !rowMap.has(row) && rowMap.set(row, new Set())
+
+    rowMap.get(row).add(column)
+  }
+  rowMap.forEach((item, key) => {
+    str += key + 1 + '排('
+    item.forEach(col => {
+      str += col + 1 + '号,'
+    })
+    str = str.replace(/,$/, '')
+    str += ')、'
+  })
+  str = str.replace(/、$/, '')
+
+  return str
 })
 </script>
 <template>
   <div class="content">
-    <div class="movie-information">
+    <div class="movie-information" v-if="orderInfo">
       <div class="img">
-        <img src="https://img.js.design/assets/img/643d164b6c033db40079a2f0.png" alt="" />
+        <img :src="movies._fid[0].pictureUrl" alt="" />
       </div>
       <div class="zhong">
-        <p class="move-title">湄公河行動</p>
-        <p>1張-總價：$450</p>
-        <p>今天10-07 22:50（國語3D）</p>
-        <p>今萬達影城-A聽 3排15座</p>
+        <p class="move-title"></p>
+        {{ movies._fid[0].filmTitle }}
+        <p>{{ orderInfo.count }}張-總價：${{ orderInfo.totalcost }}</p>
+        <p>{{ dayf(orderInfo.orderStartTime) }} {{ movies.startTime }}（國語3D）</p>
+        <p>{{ _cid.cinemaName }}-{{ _cid.hall[movies.hall] }} {{ seatStr }}</p>
       </div>
       <div class="right">
         <p class="xinxi">請到戲院櫃台支付完成交易</p>
         <p class="wxzhifu">
           <img src="https://img.js.design/assets/img/643d1646097d676c83ee616b.png" alt="" />
         </p>
-        <p class="xinxi">8834787309134</p>
+        <p class="xinxi">{{ orderInfo._id }}</p>
       </div>
     </div>
     <div class="rule-content">

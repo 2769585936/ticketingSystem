@@ -17,7 +17,6 @@ const getHotSale = async () => {
     limit: 10
   }
   const { data: res } = await hotSaleApi(obj)
-  console.log(res)
   hotSaleList.value = res
 }
 
@@ -48,8 +47,7 @@ const clickGetPreList = () => {
 }
 
 const currentList = computed(() => {
-  if (showMovieInfo.value == 'hot') return hotSaleList.value
-  return preSaleList.value
+  return showMovieInfo.value == 'hot'
 })
 </script>
 <template>
@@ -59,7 +57,9 @@ const currentList = computed(() => {
       <div class="content">
         <div v-for="item in recommendFilmList" :key="item._id">
           <div class="poster">
-            <img :src="item.pictureUrl" alt="" />
+            <div class="mask">
+              <img v-lazy-img="item.pictureUrl" alt="6" />
+            </div>
           </div>
           <div class="score-content">
             <div>{{ item.filmTitle }}</div>
@@ -83,23 +83,39 @@ const currentList = computed(() => {
         <div class="all-hot" @click="$router.push('/hotsell')">全部 ></div>
       </div>
 
-      <div class="content-neirong">
-        <!-- 热售 -->
-        <div class="box" v-for="item in currentList" :key="item._id">
+      <!-- 热售 -->
+      <div class="content-neirong" v-show="currentList">
+        <div class="box" v-for="item in hotSaleList" :key="item._id">
           <router-link :to="{ path: '/cinema', query: { _fid: item._id } }">
             <div class="img">
-              <img :src="item.pictureUrl" alt="" />
+              <div class="zzc">
+                <img v-lazy-img="item.pictureUrl" alt="" />
+                <div class="mask">
+                  <span class="text">{{ item.filmTitle }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="booking">
+              <span>订票</span>
+            </div>
+          </router-link>
+        </div>
+      </div>
+      <!-- 预售 -->
+      <div class="content-neirong" v-show="!currentList">
+        <div class="box" v-for="item in preSaleList" :key="item._id">
+          <div class="img">
+            <div class="zzc">
+              <img v-lazy-img="item.pictureUrl" alt="" />
               <div class="mask">
                 <span class="text">{{ item.filmTitle }}</span>
               </div>
             </div>
-            <div class="booking">
-              <span>{{ showMovieInfo === 'hot' ? '訂票' : '预售' }}</span>
-            </div>
-          </router-link>
+          </div>
+          <div class="booking">
+            <span>待映</span>
+          </div>
         </div>
-
-        <!-- 即将上映 -->
       </div>
     </div>
   </div>
@@ -128,20 +144,27 @@ const currentList = computed(() => {
 
       & > div {
         position: relative;
-        // height: 250px;
-        background-color: red;
 
         & > div {
           height: 100%;
         }
 
         .poster {
-          height: 100%;
+          padding-top: 42.7%;
+          background: #f1f2f3;
 
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+          .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            img {
+              min-height: 200px;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
           }
         }
 
@@ -256,38 +279,49 @@ const currentList = computed(() => {
     min-height: 270px;
     gap: 30px;
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
-
     .box {
+      width: 100%;
+      position: relative;
       .img {
         position: relative;
+        width: 100%;
 
-        img {
-          width: 100%;
-          height: 100%;
-        }
-
-        .mask {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 50px;
-          background: rgba(0, 0, 0, 0.5);
-          backdrop-filter: blur(10px);
-          @include flex-center;
-
-          .text {
-            font-size: 14px;
-            font-weight: 400;
-            height: 20px;
-            line-height: 20px;
-            color: rgba(255, 255, 255, 0.6);
+        .zzc {
+          padding-top: 137%;
+          background: #f1f2f3;
+          img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+          }
+          .mask {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            @include flex-center;
+            z-index: 3;
+            .text {
+              font-size: 14px;
+              font-weight: 400;
+              height: 20px;
+              line-height: 20px;
+              color: rgba(255, 255, 255, 0.6);
+            }
           }
         }
       }
     }
-
     .booking {
+      width: 100%;
       height: 36px;
       background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
       box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);

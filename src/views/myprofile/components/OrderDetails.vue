@@ -3,6 +3,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { deleteOrdersApi, getOrdersApi } from '@/api/order'
 import { onMounted, ref, computed } from 'vue'
 import { dayjs } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-message-box.css'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,7 +18,6 @@ const getOrders = async () => {
     type: 'id'
   })
   orderInfo.value = res[0]
-  console.log(res[0])
 }
 
 onMounted(() => getOrders())
@@ -33,21 +35,21 @@ const deleteOpen = id => {
   ElMessageBox.confirm('确定删除吗', '警告', {
     confirmButtonText: '确定',
     cancelButtonText: '取消'
-  }).then(async () => {
-    await deleteOrdersApi({
-      _id: id
-    })
-
-    ElMessage({
-      type: 'success',
-      message: '删除成功'
-    })
-    router.replace('/myprofile')
   })
+    .then(async () => {
+      await deleteOrdersApi({
+        _id: id
+      })
+      ElMessage({
+        type: 'success',
+        message: '删除成功'
+      })
+      router.replace('/myprofile')
+    })
+    .catch(err => {})
 }
 
 const seatStr = computed(() => {
-  console.log(orderInfo.value.seat)
   let str = ''
   const rowMap = new Map()
 
@@ -66,7 +68,7 @@ const seatStr = computed(() => {
     str += ')、'
   })
   str = str.replace(/、$/, '')
-  console.log(str)
+
   return str
 })
 
@@ -89,7 +91,7 @@ const frm = data => {
 </script>
 <template>
   <div>
-    <div class="title-box"><span>订单详情</span> <span>返回</span></div>
+    <div class="title-box"><span>订单详情</span> <span @click="$router.back()">返回</span></div>
     <div class="order-content">
       <div class="rongqi" v-if="orderInfo">
         <div class="box">
@@ -133,6 +135,8 @@ const frm = data => {
 <style scoped lang="scss">
 .title-box {
   color: rgba(255, 109, 83, 1);
+  display: flex;
+  justify-content: space-between;
 }
 
 .order-content {

@@ -1,5 +1,6 @@
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { dayjs } from 'element-plus'
+// 倒计时
 const useCountDown = () => {
   const time = ref(0)
   const formatTime = computed(() => dayjs.unix(time.value).format('mm分ss秒'))
@@ -31,4 +32,29 @@ const useCountDown = () => {
   }
 }
 
-export { useCountDown }
+// vue图片懒加载插件
+const lazyImg = {
+  install(app) {
+    // 图片懒加载
+    const observer = new IntersectionObserver((change, observer) => {
+      change.forEach(item => {
+        if (item.isIntersecting) {
+          item.target.src = item.target.dataset.src
+          observer.unobserve(item.target)
+        }
+      })
+    })
+
+    app.directive('lazy-img', {
+      mounted(el, { value }) {
+        el.dataset.src = value
+        observer.observe(el)
+      },
+      unMounted(el) {
+        observer.unobserve(el)
+      }
+    })
+  }
+}
+
+export { useCountDown, lazyImg }

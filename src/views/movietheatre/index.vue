@@ -1,35 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue'
 import { getCinemasApi } from '@/api/cinemas'
-import { useRoute, useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
 
-const route = useRoute()
-
-const router = useRouter()
 const cinemaList = ref([])
-
-const getCineme = async () => {
-  const { data: res } = await getCinemasApi({
-    id: route.query._fid
-  })
+const getCinemasList = async () => {
+  const { data: res } = await getCinemasApi()
   cinemaList.value = res
 }
 
-onMounted(() => getCineme())
-
-const xuanpiao = info => {
-  router.push({
-    path: '/cinema/choosedate',
-    query: {
-      _fid: route.query._fid,
-      _cid: info._cid._id
-    }
-  })
-}
+onMounted(() => getCinemasList())
 </script>
-
 <template>
-  <div class="footer">
+  <div class="main">
     <div class="container">
       <div class="choose-title">
         <h3>選擇影院</h3>
@@ -40,26 +22,26 @@ const xuanpiao = info => {
             <div class="img"></div>
           </div>
           <div class="yingcheng">
-            <p class="title-nickname">{{ item._cid.cinemaName }}</p>
-            <p class="title-address">{{ item._cid.address }}</p>
+            <p class="title-nickname">{{ item.cinemaName }}</p>
+            <p class="title-address">{{ item.address }}</p>
           </div>
           <div class="right-btn">
-            <button @click="xuanpiao(item)">选座购票</button>
+            <button @click="$router.push('/index')">选座购票</button>
           </div>
         </div>
-
         <div class="no-cinema" v-if="!cinemaList.length">附近没有更多影院或没有场次</div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.footer {
-  padding-bottom: 20px;
+<style scoped lang="scss">
+.main {
+  padding: 50px 0;
+  width: 100%;
   background: rgba(37, 38, 44, 1);
+
   .choose-title {
-    position: sticky;
     background: rgba(37, 38, 44, 1);
     color: white;
     padding: 10px 0;
@@ -91,7 +73,10 @@ const xuanpiao = info => {
       align-items: center;
       justify-content: left;
       padding: 30px 0;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(222, 222, 222, 0.6);
+      &:last-child {
+        border-bottom: none;
+      }
       .cinema-logo {
         width: 45px;
         height: 45px;

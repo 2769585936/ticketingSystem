@@ -1,13 +1,21 @@
 <script setup>
 import { hotSaleApi } from '@/api/filmInfo'
 import { getTagsApi } from '@/api/other'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const hotSaleList = ref([])
+
+const obj = {
+  limit: 10,
+  length: 0
+}
+
 const getHotSale = async () => {
-  const { data: res } = await hotSaleApi()
-  hotSaleList.value = res
-  console.log(res)
+  const { data: res } = await hotSaleApi(obj)
+  isData.value = res.length ? false : true
+  isNoMore.value = res.length ? false : true
+  hotSaleList.value.push(...res)
+  obj.length = hotSaleList.value.length
 }
 onMounted(() => getHotSale())
 
@@ -16,10 +24,34 @@ const tagsList = ref([])
 const getTags = async () => {
   const { data: res } = await getTagsApi()
   tagsList.value = res
-  console.log(res)
 }
 
 onMounted(() => getTags())
+
+// 加载更多逻辑
+// 监听windwow scroll
+
+const isData = ref(false)
+const isNoMore = ref(false)
+
+const getMoreData = () => {
+  getHotSale()
+}
+const scrollFn = () => {
+  if (isNoMore.value) return window.removeEventListener('scroll', scrollFn)
+  if (isData.value) return
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 175) {
+    getMoreData()
+    isData.value = true
+  }
+}
+onMounted(() => {
+  window.addEventListener('scroll', scrollFn)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', scrollFn)
+})
 </script>
 <template>
   <div class="main">
@@ -40,7 +72,7 @@ onMounted(() => getTags())
     .content {
       display: grid;
       gap: 20px 30px;
-      grid-template-columns: (repeat(auto-fill, minmax(585px, 1fr)));
+      grid-template-columns: (repeat(auto-fill, minmax(446px, 1fr)));
     }
   }
 }
