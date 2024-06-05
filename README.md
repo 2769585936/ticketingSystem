@@ -1,7 +1,11 @@
 # 购买电影票网站
 
 使用的是Vue 3 +pinia
+
 [项目地址](http://121.40.25.167/index)
+
+账号 17720349026
+密码 12345678
 
 ## Recommended IDE Setup
 
