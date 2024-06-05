@@ -1,6 +1,7 @@
 # 购买电影票网站
 
 使用的是Vue 3 +pinia
+[项目地址](http://121.40.25.167/index)
 
 ## Recommended IDE Setup
 
