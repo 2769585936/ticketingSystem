@@ -72,7 +72,7 @@ const frm = data => {
       </div>
       <div class="qita">${{ item.totalcost }}</div>
       <div class="qita">{{ frm(item.currentOrderState) }}</div>
-      <div class="qita" @click="$router.push('/myprofile/orderdetails/' + item._id)">查看詳情</div>
+      <div class="qita" @click="$router.push('/myprofile/orderdetails/' + item._id)">查看详情</div>
     </div>
   </div>
 </template>
@@ -130,6 +130,9 @@ const frm = data => {
     line-height: 20px;
     color: rgba(255, 255, 255, 1);
     opacity: 0.9;
+  }
+  .qita:nth-child(4) {
+    cursor: pointer;
   }
 }
 </style>

@@ -84,3 +84,18 @@ npm run build
 
   难点: 图片没有加载的时候 盒模型的高度为0 
   解决办法: 参考b站   包含块宽度是由grid 或 flex 提供的 所以是由width的, padding-top 百分比写法 % 是根据包含块的width 进行计算的 所以 只要给包含块设置一个padding-top %  具体多少 自己计算  由于设置了padding-top  再在盒子里设置内容 会导致宽度更大, 应该采用定位的方法去解决这个问题  这样就得到了一个由宽度自适应的盒模型了
+
+
+### 后续更新
+  头像裁剪上传:用户上传图片本地显示,进行选择裁剪区域获取坐标,在canvas中画出裁剪区域,生成blob数据 创建File对象 进行ajax上传
+  1. 用户进行文件上传 判断文件数据,通过FileRead对象 读取文件,生成base64文件,在本地进行展示
+  2. 在其中要通过Image对象 获取 原始图片的宽高 img.naturalWidth 原始宽img.naturalHeight原始高
+  3. 在界面上进行展示,展现宽高由短边进行确定
+  4. 裁剪框的定位属性宽高相等,由图片展示的短边决定
+  5. 用canvas 裁剪图片, 裁剪位置和裁剪大小 要计算原始图片尺寸
+  6. 通过canvas的 toDataURL可以获取裁剪后的base64图片显示在页面上供用户预览
+  7. 点击更新且canvas有值,canvas.toBlob 可以生成blob数据,通过数据创建file文件
+  8. 创建一个FormData对象 append file文件 进行ajax上传
+  9. 上传成功 更新pinia中的用户信息
+
+### 后面要创建这个项目的后台管理系统

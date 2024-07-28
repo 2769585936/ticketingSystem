@@ -5,7 +5,7 @@ defineProps(['movieInfo', 'tags'])
 <template>
   <div class="box">
     <div class="img">
-      <img v-lazy-img="movieInfo.pictureUrl" />
+      <img v-lazy-img="movieInfo.pictureUrl" :title="movieInfo.filmTitle" />
     </div>
     <div class="details-content">
       <p class="title">
@@ -13,7 +13,7 @@ defineProps(['movieInfo', 'tags'])
         <span class="title-state">{{ movieInfo.currentState ? '热售中' : '预告片' }}</span>
       </p>
       <p class="daoyan">
-        <span class="text">導演：{{ movieInfo.director }}</span>
+        <span class="text">导演：{{ movieInfo.director }}</span>
       </p>
       <p class="score">
         <img v-for="(xing, index) of movieInfo.score" :key="index" src="@/assets/images/score-r.png" alt="" />
@@ -35,10 +35,10 @@ defineProps(['movieInfo', 'tags'])
   flex-wrap: wrap;
   .img {
     width: 175px;
-    background: #f1f2f3;
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
   }
 
@@ -123,6 +123,7 @@ defineProps(['movieInfo', 'tags'])
         text-align: center;
         vertical-align: top;
         border-radius: 8px;
+        cursor: pointer;
       }
     }
   }

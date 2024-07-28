@@ -53,7 +53,7 @@ const currentComponentChange = index => {
     <div class="container">
       <ul class="nav-nar">
         <li @click="$router.back()" class="active">选择场次</li>
-        <li :class="{ active: currentComponent >= index }" @click="currentComponentChange(index)" v-for="(item, index) of navTitle" :key="index">{{ item.title }}{{ index }}{{ currentComponent }}</li>
+        <li :class="{ active: currentComponent >= index }" @click="currentComponentChange(index)" v-for="(item, index) of navTitle" :key="index">{{ item.title }}</li>
       </ul>
       <keep-alive>
         <component v-model:currentComponent="currentComponent" v-model:cinemasIdInfo="cinemasIdInfo" :is="components[currentComponent]" />
@@ -94,6 +94,7 @@ const currentComponentChange = index => {
         &.active {
           background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
           box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);
+          cursor: pointer;
         }
       }
     }

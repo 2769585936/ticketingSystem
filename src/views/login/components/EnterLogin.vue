@@ -29,7 +29,6 @@ const btnLogin = async () => {
     if (data) {
       const { data: res, token } = data
       userInfoStore.setUesrInfo(res, token)
-
       const fromRoute = route.query.fromRoute
       fromRoute ? router.replace(fromRoute) : router.replace('/')
     }

@@ -56,18 +56,20 @@ const currentList = computed(() => {
       <h3>推荐电影</h3>
       <div class="content">
         <div v-for="item in recommendFilmList" :key="item._id">
-          <div class="poster">
-            <div class="mask">
-              <img v-lazy-img="item.pictureUrl" alt="6" />
+          <router-link :to="{ path: '/cinema', query: { _fid: item._id } }">
+            <div class="poster">
+              <div class="mask">
+                <img v-lazy-img="item.pictureUrl" alt="6" />
+              </div>
             </div>
-          </div>
-          <div class="score-content">
-            <div>{{ item.filmTitle }}</div>
-            <div class="score">
-              <img v-for="(xing, index) of item.score" :key="index" src="@/assets/images/score-r.png" alt="" />
-              <img v-for="(xing, index) of 5 - item.score" :key="index" src="@/assets/images/score-v.png" alt="" />
+            <div class="score-content">
+              <div>{{ item.filmTitle }}</div>
+              <div class="score">
+                <img v-for="(xing, index) of item.score" :key="index" src="@/assets/images/score-r.png" alt="" />
+                <img v-for="(xing, index) of 5 - item.score" :key="index" src="@/assets/images/score-v.png" alt="" />
+              </div>
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -80,7 +82,7 @@ const currentList = computed(() => {
           <div class="text" :class="{ active: showMovieInfo == 'pre' }" @click="clickGetPreList">即將上映</div>
           <div class="current-bar"></div>
         </div>
-        <div class="all-hot" @click="$router.push('/hotsell')">全部 ></div>
+        <div class="all-hot" @click="$router.push('/hotsell')">全部&nbsp; &gt;</div>
       </div>
 
       <!-- 热售 -->
@@ -89,7 +91,7 @@ const currentList = computed(() => {
           <router-link :to="{ path: '/cinema', query: { _fid: item._id } }">
             <div class="img">
               <div class="zzc">
-                <img v-lazy-img="item.pictureUrl" alt="" />
+                <img v-lazy-img="item.pictureUrl" alt="" :title="item.filmTitle" />
                 <div class="mask">
                   <span class="text">{{ item.filmTitle }}</span>
                 </div>
@@ -106,7 +108,7 @@ const currentList = computed(() => {
         <div class="box" v-for="item in preSaleList" :key="item._id">
           <div class="img">
             <div class="zzc">
-              <img v-lazy-img="item.pictureUrl" alt="" />
+              <img v-lazy-img="item.pictureUrl" alt="" :title="item.filmTitle" />
               <div class="mask">
                 <span class="text">{{ item.filmTitle }}</span>
               </div>
@@ -270,6 +272,10 @@ const currentList = computed(() => {
       font-weight: 600;
       line-height: 20px;
       color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      &:hover {
+        color: #f1f2f3;
+      }
     }
   }
 
@@ -281,11 +287,13 @@ const currentList = computed(() => {
     grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
     .box {
       width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
       position: relative;
+      box-shadow: 0px 0px 10px rgb(123, 123, 133);
       .img {
         position: relative;
         width: 100%;
-
         .zzc {
           padding-top: 137%;
           background: #f1f2f3;
@@ -293,6 +301,7 @@ const currentList = computed(() => {
             position: absolute;
             width: 100%;
             height: 100%;
+            object-fit: cover;
             top: 0;
             left: 0;
             right: 0;
@@ -315,6 +324,9 @@ const currentList = computed(() => {
               height: 20px;
               line-height: 20px;
               color: rgba(255, 255, 255, 0.6);
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
             }
           }
         }

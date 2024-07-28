@@ -30,7 +30,7 @@ const clickUserLogoBtn = key => {
             <div class="text">选择剧院</div>
           </router-link>
           <router-link :class="{ active: $route.href.includes('/hotsell') }" to="/hotsell">
-            <div class="text">熱售中</div>
+            <div class="text">热售中</div>
           </router-link>
           <router-link :class="{ active: $route.href.includes('/presell') }" to="/presell">
             <div class="text">即將上映</div>

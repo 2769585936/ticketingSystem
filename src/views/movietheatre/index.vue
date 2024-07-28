@@ -112,6 +112,7 @@ onMounted(() => getCinemasList())
           background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
           box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.09);
           color: white;
+          cursor: pointer;
         }
       }
     }

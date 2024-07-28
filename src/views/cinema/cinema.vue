@@ -86,6 +86,7 @@ onMounted(() => getMovieInfo())
         img {
           width: 240px;
           height: 330px;
+          object-fit: cover;
         }
       }
       .right {

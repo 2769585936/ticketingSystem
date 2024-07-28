@@ -10,7 +10,7 @@ const nav = ref([
     path: '/myprofile/personal'
   },
   {
-    title: '所有訂單',
+    title: '所有订单',
     path: '/myprofile/order/all'
   },
   {
@@ -69,7 +69,7 @@ const changeTab = path => {
         font-size: 16px;
         line-height: 22px;
         color: rgba(255, 255, 255, 1);
-
+        cursor: pointer;
         &.active {
           background: linear-gradient(142.64deg, rgba(255, 109, 83, 1) 0%, rgba(255, 83, 83, 1) 100%);
         }
