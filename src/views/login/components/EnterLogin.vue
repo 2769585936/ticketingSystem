@@ -38,18 +38,18 @@ const btnLogin = async () => {
 </script>
 <template>
   <div class="login-content-form">
-    <h4>登入</h4>
+    <h4>登录</h4>
     <div class="form-content">
       <form class="form" @submit.prevent="false" autocomplete="off">
         <div class="colum">
-          <label for="phone">手机号码</label>
+          <label for="phone">账号</label>
           <div class="input-content">
-            <input id="phone" v-model="formLogin.phone" type="text" placeholder="请输入手机号码" />
+            <input id="phone" v-model="formLogin.phone" type="text" placeholder="请输入账号" />
             <div class="get-yzm"></div>
           </div>
         </div>
         <div class="colum">
-          <label for="phonemima">手机密码</label>
+          <label for="phonemima">密码</label>
           <div class="input-content">
             <input id="phonemima" v-model="formLogin.password" type="password" placeholder="请输入密码" />
             <div class="get-yzm"></div>
@@ -59,7 +59,7 @@ const btnLogin = async () => {
           <div @click="componentIsChange(1)">註冊</div>
           <div @click="componentIsChange(2)">忘記密碼？</div>
         </div>
-        <button class="btn" @click="btnLogin">登入</button>
+        <button class="btn" @click="btnLogin">登录</button>
       </form>
     </div>
   </div>

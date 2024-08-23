@@ -44,7 +44,7 @@ const deleteOpen = id => {
         type: 'success',
         message: '删除成功'
       })
-      router.replace('/myprofile')
+      router.go(-1)
     })
     .catch(err => {})
 }
@@ -104,7 +104,7 @@ const frm = data => {
           </span>
         </div>
         <div class="box bianhao">
-          <span>訂單編號：{{ _id }}</span>
+          <span>订单编号：{{ _id }}</span>
           <span @click="deleteOpen(_id)" class="shanchu">删除</span>
         </div>
         <div class="order-details">

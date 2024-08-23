@@ -42,7 +42,7 @@ const componentIsChange = index => {
           <div @click="componentIsChange(0)">登录</div>
           <div @click="componentIsChange(2)">忘記密碼？</div>
         </div>
-        <button class="btn">登入</button>
+        <button class="btn">登录</button>
       </form>
     </div>
   </div>

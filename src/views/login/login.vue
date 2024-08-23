@@ -10,7 +10,7 @@ const canvas = ref(null)
 </script>
 <template>
   <div class="layout">
-    <!-- <canvas ref="canvas" class="cas"></canvas> -->
+    <video src="https://api.favnow.com/background.php" class="video-login" loop muted="0" autoplay></video>
     <div class="login">
       <component v-model:componentIs="componentIs" :is="componentList[componentIs]"></component>
     </div>
@@ -22,11 +22,8 @@ const canvas = ref(null)
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-image: url('@/assets/images/login-bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
   overflow: hidden;
-  .cas {
+  .video-login {
     position: absolute;
     top: 0;
     right: 0;
@@ -34,12 +31,20 @@ const canvas = ref(null)
     left: 0;
     width: 100%;
     height: 100%;
-    // background: red;
+    z-index: -1;
+    object-fit: cover;
   }
   .login {
+    background-color: rgba(22, 22, 22, 0.1);
+    padding: 20px;
+    backdrop-filter: blur(10px);
     margin: 150px auto;
-    width: 375px;
-    min-width: 375px;
+    width: 425px;
+    min-width: 425px;
+    :deep(input::placeholder) {
+      color: #ddd;
+    }
   }
 }
 </style>
+<style></style>

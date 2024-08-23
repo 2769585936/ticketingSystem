@@ -35,7 +35,7 @@ const componentIsChange = index => {
           <div @click="componentIsChange(0)">登录</div>
           <div @click="componentIsChange(1)">注册</div>
         </div>
-        <button class="btn">登入</button>
+        <button class="btn">登录</button>
       </form>
     </div>
   </div>

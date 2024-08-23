@@ -23,27 +23,16 @@ export const useUserInfo = defineStore(
     // 更新用户函数
     const userUpdate = async newUserInfo => {
       // 调用 API 更新用户数据
-      let data = null,
-        code
+      console.log(888)
+
+      let data = null
+      console.log(98)
       if (newUserInfo.userPicture) {
-        ;({ code, data } = await userPictureUpdateApi(newUserInfo.userPicture))
+        ;({ data } = await userPictureUpdateApi(newUserInfo.userPicture))
       }
-      ;({ data, code } = await userUpdateApi(newUserInfo))
+      ;({ data } = await userUpdateApi(newUserInfo))
+      console.log(data)
       setUesrInfo(data)
-      // 假设 API 名称为 updateUser
-      if (code === '0000') {
-        ElMessage({
-          message: '更新成功',
-          type: 'success',
-          plain: true
-        })
-      } else {
-        ElMessage({
-          message: res.data.msg,
-          type: 'error',
-          plain: true
-        })
-      }
     }
     return { userInfo, setUesrInfo, exitUser, userUpdate }
   },
