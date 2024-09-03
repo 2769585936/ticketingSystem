@@ -2,7 +2,7 @@
 
 使用的是Vue 3 +pinia
 
-[项目地址](http://8.148.21.126/index)
+[项目地址](http://yezixiang66.cn/index)
 
 账号 17720349026
 密码 12345678

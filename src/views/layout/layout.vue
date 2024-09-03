@@ -60,9 +60,9 @@ const clickUserLogoBtn = key => {
     <footer>
       <div class="container">
         <p>KERTES CINEMA</p>
-        <p>官網連結 | 連結1 | 連結2 | 連結3</p>
-        <p>訂單隱私條款與服協議 <span>聯絡方式：0755-8324181</span></p>
-        <p>版權所有©KERTESCINEMA</p>
+        <p>官网连接 | 连接1 | 连接2 | 连接3</p>
+        <p>订购隐私条款与协议<span>聯絡方式：xxxxx-xxxxx</span></p>
+        <p><a href="http://beian.miit.gov.cn" target="_blank">鄂ICP备2024071313号</a></p>
       </div>
     </footer>
   </div>
