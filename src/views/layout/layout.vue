@@ -86,7 +86,7 @@ header {
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 0px;
-
+    background: rgba(34, 28, 28, 1);
     .left {
       max-width: 192px;
       color: rgba(255, 109, 83, 1);

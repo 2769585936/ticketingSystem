@@ -42,87 +42,86 @@ const totalPrice = computed(() => {
 </script>
 <template>
   <div class="main">
-    <div class="container">
-      <div class="order-time">
-        <div class="img"><img src="@/assets/images/orderpic.png" alt="" /></div>
-        <div class="wenben">
-          <p class="text">請在5分鐘39秒內完成確認</p>
-          <p class="text-cancl">訂單超時會自動取消</p>
-        </div>
+    <div class="order-time">
+      <div class="img"><img src="@/assets/images/orderpic.png" alt="" /></div>
+      <div class="wenben">
+        <p class="text">请在5分钟39秒内完成确认</p>
+        <p class="text-cancl">订单超时会自动取消</p>
       </div>
+    </div>
 
-      <div class="table-content">
-        <h3 class="jiage">價格明細</h3>
-        <div class="table-nei-content">
-          <table class="my-table" :style="{ width: '100%' }">
-            <thead>
-              <tr>
-                <th>电影信息</th>
-                <th>类别</th>
-                <th>座位信息</th>
-                <th>单价</th>
-              </tr>
-            </thead>
-            <tbody v-if="userSelectedSeat">
-              <tr v-for="(item, key, index, s) in userSelectedSeat" :key="item.id">
-                <td class="img-content-td" :rowspan="Object.keys(userSelectedSeat).length + 1" align="center" valign="center" v-if="index == 0">
-                  <div class="information">
-                    <div class="information-img">
-                      <img :src="cinemasIdInfo._fid[0].pictureUrl" alt="" />
-                    </div>
-                    <div class="title-content">
-                      <p class="film-name">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
-                      <p class="text-qt">{{ Object.keys(userSelectedSeat).length }}張-總價：${{ orderInfo.totalcost }}</p>
-                      <p class="text-qt">今天10-07 {{ cinemasIdInfo.startTime }}（國語3D）</p>
-                      <p class="text-qt">{{ cinemasIdInfo._cid[0].cinemaName }}-{{ cinemasIdInfo._cid[0].hall[cinemasIdInfo.hall] }}</p>
-                    </div>
+    <div class="table-content">
+      <h3 class="jiage">价格明细</h3>
+      <div class="table-nei-content">
+        <table class="my-table" :style="{ width: '100%' }">
+          <thead>
+            <tr>
+              <th>电影信息</th>
+              <th>类别</th>
+              <th>座位信息</th>
+              <th>单价</th>
+            </tr>
+          </thead>
+          <tbody v-if="userSelectedSeat">
+            <tr v-for="(item, key, index, s) in userSelectedSeat" :key="item.id">
+              <td class="img-content-td" :rowspan="Object.keys(userSelectedSeat).length + 1" align="center" valign="center" v-if="index == 0">
+                <div class="information">
+                  <div class="information-img">
+                    <img :src="cinemasIdInfo._fid[0].pictureUrl" alt="" />
                   </div>
-                </td>
-                <td align="center">{{ item.type }}</td>
-                <td align="center">{{ item.row + 1 }}排{{ item.column + 1 }}座</td>
-                <td align="center">${{ item.price }}</td>
-              </tr>
-              <tr>
-                <td align="center">服务费</td>
-                <td align="center"></td>
-                <td align="center">$5</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  <div class="title-content">
+                    <p class="film-name">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
+                    <p class="text-qt">{{ Object.keys(userSelectedSeat).length }}張-總價：${{ orderInfo.totalcost }}</p>
+                    <p class="text-qt">今天10-07 {{ cinemasIdInfo.startTime }}（國語3D）</p>
+                    <p class="text-qt">{{ cinemasIdInfo._cid[0].cinemaName }}-{{ cinemasIdInfo._cid[0].hall[cinemasIdInfo.hall] }}</p>
+                  </div>
+                </div>
+              </td>
+              <td align="center">{{ item.type }}</td>
+              <td align="center">{{ item.row + 1 }}排{{ item.column + 1 }}座</td>
+              <td align="center">${{ item.price }}</td>
+            </tr>
+            <tr>
+              <td align="center">服务费</td>
+              <td align="center"></td>
+              <td align="center">$5</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="phone-verification-content">
-        <div class="phone-content">
-          <label for="phone" class="phone-label">
-            <span>手机号码</span>
-            <div class="phone-div">
-              <input type="text" v-model="pheo.phone" id="phone" placeholder="请输入手机号码" />
-            </div>
-          </label>
-          <label for="verification" class="phone-label">
-            <span>验证码</span>
-            <div class="phone-div">
-              <input type="text" v-model="pheo.yzm" id="verification" placeholder="请输入验证码" />
-              <button class="btn-yzm">获取验证码</button>
-            </div>
-          </label>
-        </div>
+    </div>
+    <div class="phone-verification-content">
+      <div class="phone-content">
+        <label for="phone" class="phone-label">
+          <span>手机号码</span>
+          <div class="phone-div">
+            <input type="text" v-model="pheo.phone" id="phone" placeholder="请输入手机号码" />
+          </div>
+        </label>
+        <label for="verification" class="phone-label">
+          <span>验证码</span>
+          <div class="phone-div">
+            <input type="text" v-model="pheo.yzm" id="verification" placeholder="请输入验证码" />
+            <button class="btn-yzm">获取验证码</button>
+          </div>
+        </label>
+      </div>
 
-        <p class="jine-content">
-          <span class="jine-text">金额:</span>
-          <span class="duona">$</span>
-          <span class="total-prices">{{ Number(orderInfo.totalcost).toFixed(2) }}</span>
-        </p>
-        <p class="queding-order">
-          <button @click="btnSubmit">确认</button>
-        </p>
-      </div>
+      <p class="jine-content">
+        <span class="jine-text">金额:</span>
+        <span class="duona">$</span>
+        <span class="total-prices">{{ Number(orderInfo.totalcost).toFixed(2) }}</span>
+      </p>
+      <p class="queding-order">
+        <button @click="btnSubmit">确认</button>
+      </p>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .order-time {
+  margin-top: 30px;
   color: white;
   width: 100%;
   padding: 20px 30px;

@@ -62,18 +62,36 @@ const deleteSeat = key => {
 </script>
 <template>
   <div class="choose-seat">
+    <div class="right" v-if="cinemasIdInfo._fid">
+      <div class="title-top">
+        <div class="img">
+          <img :src="cinemasIdInfo._fid[0].pictureUrl" alt="" />
+        </div>
+        <div class="details">
+          <p class="title">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
+          <p class="history">{{ cinemasIdInfo._fid[0].issueDate }}大陸上映片長{{ cinemasIdInfo._fid[0].duration }}分鍾</p>
+        </div>
+      </div>
+
+      <div class="introduce">
+        <h3 class="jieshao">影片介紹</h3>
+        <p class="miaoshu">
+          {{ cinemasIdInfo._fid[0].describe }}
+        </p>
+      </div>
+    </div>
     <div class="left">
       <div class="icons">
         <div class="icon-item">
-          <div class="zuowei icon-bg-can"></div>
+          <div class="zuowei icon-bg-can zuowei-boredr"></div>
           <span>普通</span>
         </div>
         <div class="icon-item">
-          <div class="zuowei icon-bg-none"></div>
+          <div class="zuowei icon-bg-none zuowei-boredr"></div>
           <span>售出</span>
         </div>
         <div class="icon-item">
-          <div class="zuowei icon-bg-my-can"></div>
+          <div class="zuowei icon-bg-my-can zuowei-boredr"></div>
           <span>已选</span>
         </div>
       </div>
@@ -115,24 +133,6 @@ const deleteSeat = key => {
       </div>
       <button class="queren-buy" @click="orderSubmit">確認</button>
     </div>
-    <div class="right" v-if="cinemasIdInfo._fid">
-      <div class="title-top">
-        <div class="img">
-          <img :src="cinemasIdInfo._fid[0].pictureUrl" alt="" />
-        </div>
-        <div class="details">
-          <p class="title">{{ cinemasIdInfo._fid[0].filmTitle }}</p>
-          <p class="history">{{ cinemasIdInfo._fid[0].issueDate }}大陸上映片長{{ cinemasIdInfo._fid[0].duration }}分鍾</p>
-        </div>
-      </div>
-
-      <div class="introduce">
-        <h3 class="jieshao">影片介紹</h3>
-        <p class="miaoshu">
-          {{ cinemasIdInfo._fid[0].describe }}
-        </p>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -140,7 +140,10 @@ const deleteSeat = key => {
 .choose-seat {
   margin-top: 30px;
   display: flex;
+  flex-direction: row-reverse;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   color: white;
   .left {
     flex: 1;
@@ -149,6 +152,11 @@ const deleteSeat = key => {
       width: 26px;
       height: 23px;
       overflow: hidden;
+    }
+
+    .zuowei-boredr {
+      overflow: hidden;
+      border-radius: 10px 10px 0 0;
     }
 
     // 可选

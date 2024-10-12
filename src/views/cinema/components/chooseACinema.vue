@@ -56,8 +56,11 @@ const xuanpiao = info => {
 
 <style lang="scss" scoped>
 .footer {
-  padding-bottom: 20px;
   background: rgba(37, 38, 44, 1);
+  .container {
+    padding-bottom: 20px;
+    background: rgba(37, 38, 44, 1);
+  }
   .choose-title {
     position: sticky;
     background: rgba(37, 38, 44, 1);

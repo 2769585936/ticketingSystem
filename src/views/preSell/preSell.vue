@@ -63,11 +63,12 @@ onUnmounted(() => {
 </template>
 <style scoped lang="scss">
 .main {
-  padding-top: 30px;
-  padding-bottom: 30px;
   background: rgba(37, 38, 44, 1);
 
   .container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: rgba(37, 38, 44, 1);
     .content {
       display: grid;
       gap: 20px 30px;
