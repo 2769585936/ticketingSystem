@@ -231,12 +231,12 @@ const currentList = computed(() => {
       position: relative;
       display: flex;
       color: rgba(139, 139, 152, 1);
-
       .text {
         padding: 15px 15px;
         text-align: center;
         line-height: 22px;
-
+        border-radius: 5px;
+        cursor: pointer;
         &:hover {
           background: rgba(139, 139, 152, 0.2);
         }
