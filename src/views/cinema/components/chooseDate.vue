@@ -73,6 +73,7 @@ const getdateFormat = index => {
 .main {
   background: rgba(37, 38, 44, 1);
   .container {
+    background: rgba(37, 38, 44, 1);
     padding: 0px 0 50px 0;
     .choose-day {
       .demo-tabs {

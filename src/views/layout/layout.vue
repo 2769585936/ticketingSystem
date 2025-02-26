@@ -42,7 +42,11 @@ const clickUserLogoBtn = key => {
         </div>
         <div class="right">
           <div v-if="!userInfoStore.userInfo" @click="$router.push('/login')">登录</div>
-          <div v-else>
+          <div v-else class="user-menu">
+            <div class="user-info">
+              <div>消息</div>
+              <div>哈哈</div>
+            </div>
             <el-dropdown @command="clickUserLogoBtn">
               <el-avatar class="user-logo" :src="userInfoStore.userInfo.userPicture" />
               <template #dropdown>
@@ -65,6 +69,7 @@ const clickUserLogoBtn = key => {
         <p><a href="http://beian.miit.gov.cn" target="_blank">鄂ICP备2024071313号</a></p>
       </div>
     </footer>
+    <feedback></feedback>
   </div>
 </template>
 
@@ -86,7 +91,7 @@ header {
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 0px;
-
+    background: rgba(34, 28, 28, 1);
     .left {
       max-width: 192px;
       color: rgba(255, 109, 83, 1);
@@ -167,9 +172,15 @@ header {
       width: 105px;
       @include flex-center;
       justify-content: space-between;
-
-      .user-logo {
-        outline: none;
+      .user-menu {
+        display: flex;
+        gap: 10px;
+        .user-info {
+          font-size: 12px;
+        }
+        .user-logo {
+          outline: none;
+        }
       }
     }
   }

@@ -95,7 +95,6 @@ const seatStr = computed(() => {
 <style scoped lang="scss">
 .content {
   padding: 50px 175px;
-  width: 820px;
   margin: 50px auto;
   background: white;
   .movie-information {

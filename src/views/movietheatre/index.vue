@@ -37,10 +37,13 @@ onMounted(() => getCinemasList())
 
 <style scoped lang="scss">
 .main {
-  padding: 50px 0;
   width: 100%;
   background: rgba(37, 38, 44, 1);
-
+  .container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background: rgba(37, 38, 44, 1);
+  }
   .choose-title {
     background: rgba(37, 38, 44, 1);
     color: white;

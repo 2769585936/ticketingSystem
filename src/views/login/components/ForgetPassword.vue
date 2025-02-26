@@ -7,7 +7,7 @@ const componentIsChange = index => {
 </script>
 <template>
   <div class="login-content-form">
-    <h4>忘記密碼</h4>
+    <h4>忘记密码</h4>
     <div class="form-content">
       <form class="form" @submit.prevent="false" autocomplete="off">
         <div class="colum">

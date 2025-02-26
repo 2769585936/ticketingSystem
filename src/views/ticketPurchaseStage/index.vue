@@ -64,12 +64,14 @@ const currentComponentChange = index => {
 
 <style lang="scss" scoped>
 .main {
-  padding: 50px 0;
   background: #25262c;
   .container {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background: #25262c;
     .nav-nar {
       color: white;
-      width: 820px;
+      width: 720px;
       margin: auto;
       display: flex;
       align-items: center;

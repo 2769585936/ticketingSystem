@@ -25,7 +25,7 @@ onMounted(() => getMovieInfo())
 <template>
   <div class="main">
     <div class="wallpaper">
-      <img :src="movieInfo.pictureUrl" alt="" />
+      <img class="wallpaper-sm" :src="movieInfo.pictureUrl" alt="" />
       <div class="top-title">
         <div class="content container">
           <div class="left">
@@ -65,6 +65,13 @@ onMounted(() => getMovieInfo())
     left: 0;
     right: 0;
     top: 80px;
+
+    @media (max-width: 468px) {
+      .wallpaper-sm {
+        display: none;
+      }
+    }
+
     > img {
       position: absolute;
       left: 0;

@@ -40,7 +40,7 @@ const componentIsChange = index => {
         </div>
         <div class="qita-anniu">
           <div @click="componentIsChange(0)">登录</div>
-          <div @click="componentIsChange(2)">忘记密码?</div>
+          <div @click="componentIsChange(2)">忘记密码</div>
         </div>
         <button class="btn">登录</button>
       </form>
