@@ -61,7 +61,7 @@ const clickUserLogoBtn = key => {
       <div class="container">
         <p>KERTES CINEMA</p>
         <p>官网连接 | 连接1 | 连接2 | 连接3</p>
-        <p>订购隐私条款与协议<span>聯絡方式：xxxxx-xxxxx</span></p>
+        <p>订购隐私条款与协议<span>联络方式：xxxxx-xxxxx</span></p>
         <p><a href="http://beian.miit.gov.cn" target="_blank">鄂ICP备2024071313号</a></p>
       </div>
     </footer>

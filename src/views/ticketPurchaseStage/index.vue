@@ -11,13 +11,13 @@ const router = useRouter()
 
 const navTitle = ref([
   {
-    title: '選擇座位'
+    title: '选择座位'
   },
   {
-    title: '確認訂單'
+    title: '确认订单'
   },
   {
-    title: '訂單成功'
+    title: '订单成功'
   }
 ])
 

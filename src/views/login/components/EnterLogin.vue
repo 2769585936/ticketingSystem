@@ -56,8 +56,8 @@ const btnLogin = async () => {
           </div>
         </div>
         <div class="qita-anniu">
-          <div @click="componentIsChange(1)">註冊</div>
-          <div @click="componentIsChange(2)">忘記密碼？</div>
+          <div @click="componentIsChange(1)">注册</div>
+          <div @click="componentIsChange(2)">忘记密码?</div>
         </div>
         <button class="btn" @click="btnLogin">登录</button>
       </form>

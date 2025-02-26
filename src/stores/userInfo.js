@@ -23,10 +23,8 @@ export const useUserInfo = defineStore(
     // 更新用户函数
     const userUpdate = async newUserInfo => {
       // 调用 API 更新用户数据
-      console.log(888)
 
       let data = null
-      console.log(98)
       if (newUserInfo.userPicture) {
         ;({ data } = await userPictureUpdateApi(newUserInfo.userPicture))
       }

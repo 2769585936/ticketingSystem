@@ -1,10 +1,12 @@
 <script setup>
 import { useUserInfo } from '@/stores/userInfo'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, reactive, nextTick } from 'vue'
 
 const { userInfo, userUpdate } = useUserInfo()
 
 const userName = ref('')
+const imageMaxWidth = 180
+const imageMaxHeight = 180
 
 watch(
   () => userInfo.name,
@@ -19,55 +21,71 @@ watch(
 // 处理图片逻辑
 const filePicture = ref(null)
 const previewUploadPictureStr = ref('')
-const imgProp = ref({
-  height: 0,
+const imgProp = reactive({
+  height: 0, //当眼页面图片显示宽高
   width: 0,
-  naturalWidth: 0,
+  naturalWidth: 0, // 图片真实宽度
   naturalHeight: 0
 })
 const pictureFile = () => {
   const files = filePicture.value.files
-  maskProp.value.left = 0
-  maskProp.value.top = 0
-  if (files.length) {
-    const file = files[0]
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = e => {
-      // 上传图片到后台
-      const result = reader.result
-      previewUploadPictureStr.value = result
-      // 上传图片到后台结束
-      const img = new Image()
-      img.onload = () => {
-        const width = img.naturalWidth
-        const height = img.naturalHeight
-        imgProp.value.naturalWidth = img.naturalWidth
-        imgProp.value.naturalHeight = img.naturalHeight
-        if (width > height) {
-          imgProp.value.width = 180
-          imgProp.value.height = (180 / width) * height
-        } else {
-          imgProp.value.height = 180
-          imgProp.value.width = (180 / height) * width
-        }
-      }
-      img.src = result
-    }
-    reader.onerror = error => {
-      console.error('Error: ', error)
+  if (!files.length) return
+  //处理逻辑
+  maskProp.left = 0
+  maskProp.top = 0
+  const file = files[0]
+  const url = URL.createObjectURL(file)
+  const imageElement = new Image()
+  previewUploadPictureStr.value = url
+  imageElement.onload = () => {
+    const naturalWidth = (imgProp.naturalWidth = imageElement.naturalWidth)
+    const naturalHeight = (imgProp.naturalHeight = imageElement.naturalHeight)
+    if (naturalWidth > naturalHeight) {
+      imgProp.width = imageMaxWidth
+      imgProp.height = (imageMaxWidth / naturalWidth) * naturalHeight
+    } else {
+      imgProp.height = imageMaxHeight
+      imgProp.width = (imageMaxHeight / naturalHeight) * naturalWidth
     }
   }
+  imageElement.src = url
+
+  /*  const reader = new FileReader()
+  // 读取用户上传的文件并生成一个url
+  reader.readAsDataURL(file)
+  reader.onload = e => {
+    //   // 上传图片到后台
+    const result = reader.result
+    previewUploadPictureStr.value = result
+    // 上传图片到后台结束
+    const img = new Image()
+    img.onload = () => {
+      const width = (imgProp.naturalWidth = img.naturalWidth)
+      const height = (imgProp.naturalHeight = img.naturalHeight)
+      if (width > height) {
+        imgProp.width = imageMaxWidth
+        imgProp.height = (imageMaxWidth / width) * height
+      } else {
+        imgProp.height = imageMaxHeight
+        imgProp.width = (imageMaxHeight / height) * width
+      }
+      initCanvas()
+    }
+    img.src = result
+  }
+  reader.onerror = error => {
+    console.error('Error: ', error)
+  } */
 }
 // 计算mask大小
 
 const maskSize = computed(() => {
   let height = 0,
     width = 0
-  if (imgProp.value.width > imgProp.value.height) {
-    width = height = imgProp.value.height + 'px'
+  if (imgProp.width > imgProp.height) {
+    width = height = imgProp.height + 'px'
   } else {
-    height = width = imgProp.value.width + 'px'
+    height = width = imgProp.width + 'px'
   }
   return {
     height,
@@ -75,7 +93,7 @@ const maskSize = computed(() => {
   }
 })
 
-const maskProp = ref({
+const maskProp = reactive({
   top: '0px',
   left: '0px'
 })
@@ -100,47 +118,83 @@ const movemask = e => {
     const newX = e.pageX
     const newY = e.pageY
     let moveX = newX - oldX + left
-    let moveY = newY - oldY + top
-    if (imgProp.value.width > imgProp.value.height) {
+    let moveY = newY - oldY + top,
+      maskWidth = parseInt(maskSize.value.width),
+      maskHeight = parseInt(maskSize.value.height)
+    if (imgProp.width > imgProp.height) {
       moveX = moveX >= 0 ? moveX : 0
-      moveX = moveX >= imgProp.value.width - parseInt(maskSize.value.width) ? imgProp.value.width - parseInt(maskSize.value.width) : moveX
+      moveX = moveX >= imgProp.width - maskWidth ? imgProp.width - maskWidth : moveX
       moveX += 'px'
-      maskProp.value.left = moveX
+      maskProp.left = moveX
     } else {
       moveY = moveY >= 0 ? moveY : 0
-      moveY = moveY >= imgProp.value.height - parseInt(maskSize.value.height) ? imgProp.value.height - parseInt(maskSize.value.height) : moveY
+      moveY = moveY >= imgProp.height - maskHeight ? imgProp.height - maskHeight : moveY
       moveY += 'px'
-      maskProp.value.top = moveY
+      maskProp.top = moveY
     }
   }
 }
 
 let canvas = null
-// 剪切图片
+//初始化canvas
+const initCanvas = () => {
+  let maskWidth = parseInt(maskSize.value.width), // 遮罩层宽高
+    maskHeight = parseInt(maskSize.value.height)
+  canvas = canvas || document.createElement('canvas')
+  canvas.width = maskWidth // 设置宽度
+  canvas.height = maskHeight // 设置高度
+  return canvas
+}
 const filePictureImg = ref(null)
 const clipFn = computed(() => {
-  if (!previewUploadPictureStr.value || !parseInt(maskSize.value.height) || !parseInt(maskSize.value.width)) return ''
+  let maskWidth = parseInt(maskSize.value.width), // 遮罩层宽高 对应canvas宽高
+    maskHeight = parseInt(maskSize.value.height)
+  if (!previewUploadPictureStr.value || !maskHeight || !maskWidth) return ''
+  canvas = canvas || initCanvas()
+
+  let width = imgProp.width, //图片 显示宽高
+    height = imgProp.height,
+    naturalWidth = imgProp.naturalWidth, //图片真实宽高
+    naturalHeight = imgProp.naturalHeight
+  let left = parseInt(maskProp.left),
+    top = parseInt(maskProp.top)
+
+  const ctx = canvas.getContext('2d')
+  if (naturalWidth > naturalHeight) {
+    left = left * (naturalHeight / height)
+    top = top * (naturalHeight / height)
+    width = height = height * (naturalHeight / height)
+  } else {
+    left = left * (naturalWidth / width)
+    top = top * (naturalWidth / width)
+    width = height = width * (naturalWidth / width)
+  }
+  ctx.drawImage(filePictureImg.value, left, top, width, height, 0, 0, canvas.width, canvas.height)
+
+  /*   if (!previewUploadPictureStr.value || !parseInt(maskSize.value.height) || !parseInt(maskSize.value.width)) return ''
   canvas = canvas || document.createElement('canvas')
-  let width = parseInt(imgProp.value.width)
-  let height = parseInt(imgProp.value.height) // 设置高度
+
+  let width = parseInt(imgProp.width)
+  let height = parseInt(imgProp.height) // 设置高度
   let left = 0,
     top = 0
   canvas.width = parseInt(maskSize.value.width) // 设置宽度
   canvas.height = parseInt(maskSize.value.height) // 设置高度
   const ctx = canvas.getContext('2d')
 
-  if (imgProp.value.naturalWidth > imgProp.value.naturalHeight) {
-    width = height = height * (imgProp.value.naturalHeight / imgProp.value.height)
-    left = parseInt(maskProp.value.left) * (imgProp.value.naturalHeight / imgProp.value.height)
-    top = parseInt(maskProp.value.top) * (imgProp.value.naturalHeight / imgProp.value.height)
+  if (imgProp.naturalWidth > imgProp.naturalHeight) {
+    width = height = height * (imgProp.naturalHeight / imgProp.height)
+    left = parseInt(maskProp.left) * (imgProp.naturalHeight / imgProp.height)
+    top = parseInt(maskProp.top) * (imgProp.naturalHeight / imgProp.height)
   } else {
-    width = height = width * (imgProp.value.naturalWidth / imgProp.value.width)
-    left = parseInt(maskProp.value.left) * (imgProp.value.naturalWidth / imgProp.value.width)
-    top = parseInt(maskProp.value.top) * (imgProp.value.naturalWidth / imgProp.value.width)
+    width = height = width * (imgProp.naturalWidth / imgProp.width)
+    left = parseInt(maskProp.left) * (imgProp.naturalWidth / imgProp.width)
+    top = parseInt(maskProp.top) * (imgProp.naturalWidth / imgProp.width)
   }
   ctx.drawImage(filePictureImg.value, left, top, width, height, 0, 0, parseInt(maskSize.value.width), parseInt(maskSize.value.width))
+ */
   return {
-    data: canvas.toDataURL('image/jpeg', 1)
+    data: canvas.toDataURL('image/jpg', 1)
   }
 })
 // 更新用户数据

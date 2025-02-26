@@ -28,7 +28,7 @@ const componentIsChange = index => {
           <label for="yanzhenma">验证码</label>
           <div class="input-content">
             <input id="yanzhenma" type="text" />
-            <div class="get-yzm">獲取驗證碼</div>
+            <div class="get-yzm">获取验证码</div>
           </div>
         </div>
         <div class="qita-anniu">
